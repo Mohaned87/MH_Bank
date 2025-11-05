@@ -13,3 +13,4 @@ D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.dll
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\refint\MHBank.Infrastructure.dll
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.pdb
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\ref\MHBank.Infrastructure.dll
+D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.sourcelink.json
