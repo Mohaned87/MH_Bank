@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\MH_Bank\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\entities\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\entities\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Core\\Entities\\User.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\User.cs",
+              "RelativeToolTip": "src\\MHBank.Core\\Entities\\User.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAzwA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T09:28:13.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Transaction.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\Transaction.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Core\\Entities\\Transaction.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\Transaction.cs",
+              "RelativeToolTip": "src\\MHBank.Core\\Entities\\Transaction.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAkwDQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T09:25:55.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BankAccount.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\BankAccount.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Core\\Entities\\BankAccount.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\BankAccount.cs",
+              "RelativeToolTip": "src\\MHBank.Core\\Entities\\BankAccount.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAA5wCsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T09:24:10.398Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
