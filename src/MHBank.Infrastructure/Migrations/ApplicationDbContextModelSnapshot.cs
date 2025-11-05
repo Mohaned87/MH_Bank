@@ -161,11 +161,15 @@ namespace MHBank.Infrastructure.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
                         .IsUnique();
 
                     b.ToTable("Users");

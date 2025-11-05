@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MHBank.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251105223208_InitialCreate")]
+    [Migration("20251105230139_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -164,11 +164,15 @@ namespace MHBank.Infrastructure.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
                         .IsUnique();
 
                     b.ToTable("Users");

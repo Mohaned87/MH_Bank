@@ -18,7 +18,7 @@ namespace MHBank.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -119,6 +119,12 @@ namespace MHBank.Infrastructure.Migrations
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PhoneNumber",
+                table: "Users",
+                column: "PhoneNumber",
                 unique: true);
         }
 

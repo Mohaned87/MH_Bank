@@ -11,7 +11,7 @@ namespace MHBank.Core.DTOs;
 /// </summary>
 public record LoginRequest
 {
-    public string Email { get; init; } = string.Empty;
+    public string Username { get; init; } = string.Empty;  // رقم الهاتف أو رقم الهوية أو البريد
     public string Password { get; init; } = string.Empty;
 }
 
