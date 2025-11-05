@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\MH_Bank\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\dtos\\accountdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\dtos\\accountdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\entities\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\entities\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\dtos\\authdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\dtos\\authdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|d:\\mh_bank\\src\\mhbank.core\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6A27F44-2208-45FF-B3B4-214EE843FC45}|src\\MHBank.Core\\MHBank.Core.csproj|solutionrelative:src\\mhbank.core\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,40 +27,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Core\\Entities\\User.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\User.cs",
-              "RelativeToolTip": "src\\MHBank.Core\\Entities\\User.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAzwA0AAAAFAAAAAAAAAA==",
+              "Title": "Accountdtos.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\Accountdtos.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Core\\DTOs\\Accountdtos.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\Accountdtos.cs",
+              "RelativeToolTip": "src\\MHBank.Core\\DTOs\\Accountdtos.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAywBcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T09:28:13.641Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Transaction.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\Transaction.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Core\\Entities\\Transaction.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\Transaction.cs",
-              "RelativeToolTip": "src\\MHBank.Core\\Entities\\Transaction.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAkwDQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T09:25:55.977Z",
+              "WhenOpened": "2025-11-05T09:50:09.188Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "BankAccount.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\BankAccount.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Core\\Entities\\BankAccount.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\Entities\\BankAccount.cs",
-              "RelativeToolTip": "src\\MHBank.Core\\Entities\\BankAccount.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAA5wCsAAAABAAAAAAAAAA==",
+              "Title": "Authdtos.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\Authdtos.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Core\\DTOs\\Authdtos.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\Authdtos.cs",
+              "RelativeToolTip": "src\\MHBank.Core\\DTOs\\Authdtos.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAywCgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T09:24:10.398Z",
+              "WhenOpened": "2025-11-05T09:48:51.005Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\UserDto.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Core\\DTOs\\UserDto.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\UserDto.cs",
+              "RelativeToolTip": "src\\MHBank.Core\\DTOs\\UserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T09:47:14.298Z",
               "EditorCaption": ""
             }
           ]
