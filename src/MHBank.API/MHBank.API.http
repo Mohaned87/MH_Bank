@@ -1,0 +1,6 @@
+@MHBank.API_HostAddress = http://localhost:5185
+
+GET {{MHBank.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
