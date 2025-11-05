@@ -10,3 +10,4 @@ D:\MH_Bank\src\MHBank.Core\obj\Debug\net8.0\refint\MHBank.Core.dll
 D:\MH_Bank\src\MHBank.Core\obj\Debug\net8.0\MHBank.Core.pdb
 D:\MH_Bank\src\MHBank.Core\obj\Debug\net8.0\ref\MHBank.Core.dll
 D:\MH_Bank\src\MHBank.Core\obj\Debug\net8.0\MHBank.Core.sourcelink.json
+D:\MH_Bank\src\MHBank.Core\obj\Debug\net8.0\MHBank.Core.csproj.AssemblyReference.cache
