@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MHBank.Core.DTOs;
 using MHBank.Core.Entities;
+using MHBank.Core.Interfaces;
 using MHBank.Infrastructure.Data;
 
 namespace MHBank.API.Controllers;
@@ -11,11 +12,13 @@ namespace MHBank.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly IJwtService _jwtService;
     private readonly ILogger<AuthController> _logger;
 
-    public AuthController(ApplicationDbContext context, ILogger<AuthController> logger)
+    public AuthController(ApplicationDbContext context, IJwtService jwtService, ILogger<AuthController> logger)
     {
         _context = context;
+        _jwtService = jwtService;
         _logger = logger;
     }
 
@@ -106,11 +109,18 @@ public class AuthController : ControllerBase
             user.LastLoginAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
+
+            // إنشاء JWT Token
+            _logger.LogInformation("🔑 محاولة إنشاء JWT Token...");
+            var accessToken = _jwtService.GenerateAccessToken(user);
+            _logger.LogInformation("✅ تم إنشاء Token: {TokenLength} حرف", accessToken?.Length ?? 0);
+
             _logger.LogInformation("✅ تسجيل دخول ناجح: {Username}", request.Username);
 
             return Ok(new LoginResponse
             {
                 Success = true,
+                AccessToken = accessToken,
                 Message = "تم تسجيل الدخول بنجاح",
                 User = new UserDto
                 {
