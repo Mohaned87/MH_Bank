@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MHBank.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d2323ecd429ba89e053e264e9bc1d24fa57cdf5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61dba23dad3af72844df0bb4fc7b59191963efd7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MHBank.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MHBank.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

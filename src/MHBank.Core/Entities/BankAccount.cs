@@ -33,6 +33,7 @@ public class BankAccount
 
     // العلاقات
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 }
 /// <summary>
 /// أنواع الحسابات

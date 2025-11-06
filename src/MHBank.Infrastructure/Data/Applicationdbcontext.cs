@@ -17,7 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<BankAccount> BankAccounts => Set<BankAccount>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
-
+    public DbSet<Card> Cards => Set<Card>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -75,6 +75,28 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.ReferenceNumber).IsRequired().HasMaxLength(50);
             entity.Property(e => e.Amount).HasPrecision(18, 2);
             entity.Property(e => e.Description).IsRequired().HasMaxLength(200);
+        });
+
+        // ═══════════════════════════════════════════
+        // Card Configuration
+        // ═══════════════════════════════════════════
+        modelBuilder.Entity<Card>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.CardNumber).IsUnique();
+            entity.HasIndex(e => e.AccountId);
+
+            entity.Property(e => e.CardNumber).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.CardHolderName).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.CVV).IsRequired().HasMaxLength(4);
+            entity.Property(e => e.DailyLimit).HasPrecision(18, 2);
+            entity.Property(e => e.MonthlyLimit).HasPrecision(18, 2);
+
+            // العلاقة: Card ينتمي لـ Account واحد
+            entity.HasOne(e => e.Account)
+                .WithMany(e => e.Cards)
+                .HasForeignKey(e => e.AccountId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
