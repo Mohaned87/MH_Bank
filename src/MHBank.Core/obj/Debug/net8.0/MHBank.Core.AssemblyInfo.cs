@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MHBank.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4043fa9208ff1bac1ba6a1f66e630e6752dcc918")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17239893940ee835409abc4f707f979ccccd86c4")]
 [assembly: System.Reflection.AssemblyProductAttribute("MHBank.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MHBank.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
