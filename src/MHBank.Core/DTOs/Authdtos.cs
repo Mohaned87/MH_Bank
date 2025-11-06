@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MHBank.Core.DTOs;
+﻿namespace MHBank.Core.DTOs;
 
 /// <summary>
-/// طلب تسجيل الدخول
+/// طلب تسجيل الدخول - يمكن استخدام رقم الهاتف أو البريد
 /// </summary>
 public record LoginRequest
 {
-    public string Username { get; init; } = string.Empty;  // رقم الهاتف أو رقم الهوية أو البريد
+    public string Username { get; init; } = string.Empty;
     public string Password { get; init; } = string.Empty;
 }
 
@@ -27,7 +21,6 @@ public record RegisterRequest
     public string PhoneNumber { get; init; } = string.Empty;
     public DateTime DateOfBirth { get; init; }
 }
-
 
 /// <summary>
 /// استجابة تسجيل الدخول

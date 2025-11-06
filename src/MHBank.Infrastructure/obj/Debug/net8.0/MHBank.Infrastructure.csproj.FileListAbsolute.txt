@@ -1,4 +1,5 @@
 D:\MH_Bank\src\MHBank.Infrastructure\bin\Debug\net8.0\MHBank.Infrastructure.deps.json
+D:\MH_Bank\src\MHBank.Infrastructure\bin\Debug\net8.0\MHBank.Infrastructure.runtimeconfig.json
 D:\MH_Bank\src\MHBank.Infrastructure\bin\Debug\net8.0\MHBank.Infrastructure.dll
 D:\MH_Bank\src\MHBank.Infrastructure\bin\Debug\net8.0\MHBank.Infrastructure.pdb
 D:\MH_Bank\src\MHBank.Infrastructure\bin\Debug\net8.0\MHBank.Core.dll
@@ -8,11 +9,10 @@ D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.Gene
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.AssemblyInfoInputs.cache
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.AssemblyInfo.cs
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.csproj.CoreCompileInputs.cache
+D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.sourcelink.json
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.I.FD03A55E.Up2Date
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.dll
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\refint\MHBank.Infrastructure.dll
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.pdb
-D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\ref\MHBank.Infrastructure.dll
-D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.sourcelink.json
-D:\MH_Bank\src\MHBank.Infrastructure\bin\Debug\net8.0\MHBank.Infrastructure.runtimeconfig.json
 D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\MHBank.Infrastructure.genruntimeconfig.cache
+D:\MH_Bank\src\MHBank.Infrastructure\obj\Debug\net8.0\ref\MHBank.Infrastructure.dll
