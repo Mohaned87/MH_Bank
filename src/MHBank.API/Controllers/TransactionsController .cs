@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MHBank.Core.Entities;
 using MHBank.Infrastructure.Data;
+using MHBank.Infrastructure.Services;
 
 namespace MHBank.API.Controllers;
 
@@ -12,11 +13,16 @@ namespace MHBank.API.Controllers;
 public class TransactionsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly TransactionLimitsService _limitsService;
     private readonly ILogger<TransactionsController> _logger;
 
-    public TransactionsController(ApplicationDbContext context, ILogger<TransactionsController> logger)
+    public TransactionsController(
+        ApplicationDbContext context,
+        TransactionLimitsService limitsService,
+        ILogger<TransactionsController> logger)
     {
         _context = context;
+        _limitsService = limitsService;
         _logger = logger;
     }
 
@@ -54,12 +60,10 @@ public class TransactionsController : ControllerBase
             if (!toAccount.IsActive)
                 return BadRequest(new { Message = "الحساب المستقبل غير نشط" });
 
-            // التحقق من الرصيد
-            if (fromAccount.Balance < request.Amount)
-                return BadRequest(new { Message = $"الرصيد غير كافٍ. الرصيد الحالي: {fromAccount.Balance}" });
-
-            if (request.Amount <= 0)
-                return BadRequest(new { Message = "المبلغ يجب أن يكون أكبر من صفر" });
+            // التحقق من الحدود باستخدام الخدمة
+            var (isAllowed, errorMessage) = await _limitsService.CanPerformTransactionAsync(fromAccount, request.Amount);
+            if (!isAllowed)
+                return BadRequest(new { Message = errorMessage });
 
             // إنشاء رقم مرجعي
             var referenceNumber = GenerateReferenceNumber();
@@ -86,6 +90,13 @@ public class TransactionsController : ControllerBase
             };
 
             _context.Transactions.Add(trans);
+
+            // تحديث تاريخ آخر معاملة
+            fromAccount.LastTransactionAt = DateTime.UtcNow;
+
+            // تسجيل المعاملة في نظام الحدود
+            await _limitsService.RecordTransactionAsync(fromAccount, request.Amount);
+
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
 
@@ -271,6 +282,61 @@ public class TransactionsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ خطأ في الإيداع");
+            return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// الحصول على ملخص حدود المعاملات للحساب
+    /// </summary>
+    [HttpGet("limits/{accountId}")]
+    public async Task<IActionResult> GetTransactionLimits(Guid accountId)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            // التحقق من ملكية الحساب
+            var account = await _context.BankAccounts
+                .FirstOrDefaultAsync(a => a.Id == accountId && a.UserId == userId.Value);
+
+            if (account == null)
+                return NotFound(new { Message = "الحساب غير موجود" });
+
+            var summary = await _limitsService.GetLimitsSummaryAsync(accountId);
+
+            return Ok(new
+            {
+                Success = true,
+                Limits = new
+                {
+                    Daily = new
+                    {
+                        summary.DailyLimit,
+                        summary.DailyUsed,
+                        summary.DailyRemaining,
+                        Percentage = summary.DailyLimit > 0
+                            ? (summary.DailyUsed / summary.DailyLimit * 100)
+                            : 0
+                    },
+                    Monthly = new
+                    {
+                        summary.MonthlyLimit,
+                        summary.MonthlyUsed,
+                        summary.MonthlyRemaining,
+                        Percentage = summary.MonthlyLimit > 0
+                            ? (summary.MonthlyUsed / summary.MonthlyLimit * 100)
+                            : 0
+                    },
+                    summary.SingleTransactionMax
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في جلب الحدود");
             return StatusCode(500, new { Message = "حدث خطأ" });
         }
     }
