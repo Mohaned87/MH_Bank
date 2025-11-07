@@ -15,7 +15,10 @@ public class AuthController : ControllerBase
     private readonly IJwtService _jwtService;
     private readonly ILogger<AuthController> _logger;
 
-    public AuthController(ApplicationDbContext context, IJwtService jwtService, ILogger<AuthController> logger)
+    public AuthController(
+        ApplicationDbContext context,
+        IJwtService jwtService,
+        ILogger<AuthController> logger)
     {
         _context = context;
         _jwtService = jwtService;
@@ -109,11 +112,26 @@ public class AuthController : ControllerBase
             user.LastLoginAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
-
             // إنشاء JWT Token
             _logger.LogInformation("🔑 محاولة إنشاء JWT Token...");
             var accessToken = _jwtService.GenerateAccessToken(user);
+            var refreshToken = _jwtService.GenerateRefreshToken();
             _logger.LogInformation("✅ تم إنشاء Token: {TokenLength} حرف", accessToken?.Length ?? 0);
+
+            // حفظ Refresh Token
+            var refreshTokenEntity = new Core.Entities.RefreshToken
+            {
+                Id = Guid.NewGuid(),
+                Token = refreshToken,
+                UserId = user.Id,
+                DeviceId = request.Username, // مؤقتاً
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(7)
+            };
+
+            _context.RefreshTokens.Add(refreshTokenEntity);
+            await _context.SaveChangesAsync();
 
             _logger.LogInformation("✅ تسجيل دخول ناجح: {Username}", request.Username);
 
@@ -121,6 +139,7 @@ public class AuthController : ControllerBase
             {
                 Success = true,
                 AccessToken = accessToken,
+                RefreshToken = refreshToken,
                 Message = "تم تسجيل الدخول بنجاح",
                 User = new UserDto
                 {
@@ -153,4 +172,167 @@ public class AuthController : ControllerBase
             Timestamp = DateTime.UtcNow
         });
     }
+
+    /// <summary>
+    /// تجديد Access Token باستخدام Refresh Token
+    /// </summary>
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        try
+        {
+            // البحث عن Refresh Token
+            var refreshToken = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                .FirstOrDefaultAsync(rt => rt.Token == request.RefreshToken);
+
+            if (refreshToken == null)
+                return Unauthorized(new { Message = "Refresh Token غير صحيح" });
+
+            // التحقق من صلاحية الرمز
+            if (!refreshToken.IsActive)
+            {
+                return Unauthorized(new
+                {
+                    Message = refreshToken.IsRevoked ? "تم إبطال الرمز" :
+                              refreshToken.IsUsed ? "تم استخدام الرمز مسبقاً" :
+                              "الرمز منتهي الصلاحية"
+                });
+            }
+
+            // وضع علامة استخدام على الرمز القديم
+            refreshToken.IsUsed = true;
+            refreshToken.UsedAt = DateTime.UtcNow;
+
+            // إنشاء رموز جديدة
+            var newAccessToken = _jwtService.GenerateAccessToken(refreshToken.User);
+            var newRefreshToken = _jwtService.GenerateRefreshToken();
+
+            // حفظ Refresh Token الجديد
+            var newRefreshTokenEntity = new Core.Entities.RefreshToken
+            {
+                Id = Guid.NewGuid(),
+                Token = newRefreshToken,
+                UserId = refreshToken.UserId,
+                DeviceId = refreshToken.DeviceId,
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(7)
+            };
+
+            _context.RefreshTokens.Add(newRefreshTokenEntity);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ تم تجديد الرموز: {UserId}", refreshToken.UserId);
+
+            return Ok(new
+            {
+                Success = true,
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken,
+                Message = "تم تجديد الرموز بنجاح"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في تجديد الرمز");
+            return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// إبطال Refresh Token (Logout)
+    /// </summary>
+    [HttpPost("revoke")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> RevokeToken([FromBody] RefreshTokenRequest request)
+    {
+        try
+        {
+            var refreshToken = await _context.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.Token == request.RefreshToken);
+
+            if (refreshToken == null)
+                return NotFound(new { Message = "الرمز غير موجود" });
+
+            // التحقق من الملكية
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (refreshToken.UserId.ToString() != userId)
+                return Forbid();
+
+            // إبطال الرمز
+            refreshToken.IsRevoked = true;
+            refreshToken.RevokedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ تم إبطال Refresh Token: {UserId}", userId);
+
+            return Ok(new
+            {
+                Success = true,
+                Message = "تم تسجيل الخروج بنجاح"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في إبطال الرمز");
+            return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// الحصول على معلومات المستخدم الحالي (محمي بـ JWT)
+    /// </summary>
+    [HttpGet("me")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        try
+        {
+            // الحصول على UserId من JWT Token
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(new { Message = "Token غير صالح" });
+            }
+
+            // جلب المستخدم من قاعدة البيانات
+            var user = await _context.Users.FindAsync(Guid.Parse(userId));
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "المستخدم غير موجود" });
+            }
+
+            return Ok(new
+            {
+                Message = "✅ أنت مُصادق!",
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    FullName = user.FullName,
+                    PhoneNumber = user.PhoneNumber,
+                    CreatedAt = user.CreatedAt
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في الحصول على المستخدم");
+            return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════
+// Request/Response Models
+// ═══════════════════════════════════════════════
+
+public record RefreshTokenRequest
+{
+    public string RefreshToken { get; init; } = string.Empty;
 }

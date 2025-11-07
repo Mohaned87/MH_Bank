@@ -18,6 +18,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<BankAccount> BankAccounts => Set<BankAccount>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<Card> Cards => Set<Card>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -96,6 +98,24 @@ public class ApplicationDbContext : DbContext
             entity.HasOne(e => e.Account)
                 .WithMany(e => e.Cards)
                 .HasForeignKey(e => e.AccountId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        // ═══════════════════════════════════════════
+        // RefreshToken Configuration
+        // ═══════════════════════════════════════════
+        modelBuilder.Entity<RefreshToken>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Token).IsUnique();
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.ExpiresAt);
+
+            entity.Property(e => e.Token).IsRequired().HasMaxLength(500);
+
+            // العلاقة: RefreshToken ينتمي لـ User واحد
+            entity.HasOne(e => e.User)
+                .WithMany(e => e.RefreshTokens)
+                .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

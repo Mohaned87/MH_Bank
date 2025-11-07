@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace MHBank.Core.Entities;
 
-namespace MHBank.Core.Entities;
 /// <summary>
 /// المستخدم - العميل في البنك
 /// </summary>
-
 public class User
 {
     public Guid Id { get; set; }
@@ -16,7 +10,7 @@ public class User
     // معلومات تسجيل الدخول
     public string Email { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;
-    public string PhoneNumber { get; set; } = string.Empty;// 07xxxxxxxxx
+    public string PhoneNumber { get; set; } = string.Empty;  // 07xxxxxxxxx
 
     // المعلومات الشخصية
     public string FirstName { get; set; } = string.Empty;
@@ -27,6 +21,7 @@ public class User
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastLoginAt { get; set; }
+
     // KYC (التحقق من الهوية)
     public KycStatus KycStatus { get; set; } = KycStatus.Pending;
     public string? IdDocumentPath { get; set; }
@@ -37,10 +32,12 @@ public class User
 
     // العلاقات
     public virtual ICollection<BankAccount> Accounts { get; set; } = new List<BankAccount>();
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     // Helper
     public string FullName => $"{FirstName} {LastName}";
 }
+
 /// <summary>
 /// حالات التحقق من الهوية
 /// </summary>

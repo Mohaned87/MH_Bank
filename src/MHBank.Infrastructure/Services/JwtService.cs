@@ -1,17 +1,16 @@
-﻿using MHBank.Core.Entities;
-using MHBank.Core.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using MHBank.Core.Entities;
+using MHBank.Core.Interfaces;
 
 namespace MHBank.Infrastructure.Services;
 
+/// <summary>
+/// خدمة JWT - إدارة رموز المصادقة
+/// </summary>
 public class JwtService : IJwtService
 {
     private readonly string _secret;
@@ -21,11 +20,12 @@ public class JwtService : IJwtService
 
     public JwtService(IConfiguration configuration)
     {
-        _secret = configuration["Jwt:Secret"] ?? "MHBank-Super-Secret-Key-Min-32-Chars-For-JWT-2025!";
+        _secret = configuration["Jwt:Secret"] ?? "MHBank-Super-Secret-Key-Min-32-Chars!";
         _issuer = configuration["Jwt:Issuer"] ?? "MHBank.API";
         _audience = configuration["Jwt:Audience"] ?? "MHBank.Mobile";
         _expirationMinutes = int.Parse(configuration["Jwt:ExpirationMinutes"] ?? "60");
     }
+
     public string GenerateAccessToken(User user)
     {
         var claims = new[]
@@ -49,6 +49,15 @@ public class JwtService : IJwtService
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public string GenerateRefreshToken()
+    {
+        var randomBytes = new byte[64];
+        using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+
+        return Convert.ToBase64String(randomBytes);
     }
 
     public bool ValidateToken(string token)
