@@ -1,11 +1,11 @@
-﻿using MHBank.Core.Interfaces;
-using MHBank.Infrastructure.Data;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using MHBank.API.Middleware;
+using MHBank.Core.Interfaces;
+using MHBank.Infrastructure.Data;
 using MHBank.Infrastructure.Services;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +56,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "MH-Bank API", Version = "v1" });
+
     // إضافة JWT للـ Swagger
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
@@ -90,7 +91,6 @@ var app = builder.Build();
 // ═══════════════════════════════════════════════
 
 // تفعيل Swagger
-
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -99,7 +99,13 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
+
+// Rate Limiting
+app.UseMiddleware<RateLimitMiddleware>();
+
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 // الصفحة الرئيسية

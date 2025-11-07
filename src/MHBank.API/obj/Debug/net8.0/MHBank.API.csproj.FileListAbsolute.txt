@@ -154,3 +154,5 @@ D:\MH_Bank\src\MHBank.API\obj\Debug\net8.0\refint\MHBank.API.dll
 D:\MH_Bank\src\MHBank.API\obj\Debug\net8.0\MHBank.API.pdb
 D:\MH_Bank\src\MHBank.API\obj\Debug\net8.0\MHBank.API.genruntimeconfig.cache
 D:\MH_Bank\src\MHBank.API\obj\Debug\net8.0\ref\MHBank.API.dll
+D:\MH_Bank\src\MHBank.API\bin\Debug\net8.0\AspNetCoreRateLimit.dll
+D:\MH_Bank\src\MHBank.API\bin\Debug\net8.0\Newtonsoft.Json.dll

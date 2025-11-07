@@ -167,3 +167,4 @@ D:\MH_Bank\tests\MHBank.API.Tests\obj\Debug\net8.0\refint\MHBank.API.Tests.dll
 D:\MH_Bank\tests\MHBank.API.Tests\obj\Debug\net8.0\MHBank.API.Tests.pdb
 D:\MH_Bank\tests\MHBank.API.Tests\obj\Debug\net8.0\MHBank.API.Tests.genruntimeconfig.cache
 D:\MH_Bank\tests\MHBank.API.Tests\obj\Debug\net8.0\ref\MHBank.API.Tests.dll
+D:\MH_Bank\tests\MHBank.API.Tests\bin\Debug\net8.0\AspNetCoreRateLimit.dll
