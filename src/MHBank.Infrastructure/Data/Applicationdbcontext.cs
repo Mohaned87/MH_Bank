@@ -20,6 +20,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Card> Cards => Set<Card>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<BillPayment> BillPayments => Set<BillPayment>();
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -137,6 +139,27 @@ public class ApplicationDbContext : DbContext
             entity.HasOne(e => e.User)
                 .WithMany(e => e.Notifications)
                 .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        // ═══════════════════════════════════════════
+        // BillPayment Configuration
+        // ═══════════════════════════════════════════
+        modelBuilder.Entity<BillPayment>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.AccountId);
+            entity.HasIndex(e => e.ReferenceNumber).IsUnique();
+            entity.HasIndex(e => e.CreatedAt);
+
+            entity.Property(e => e.BillNumber).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.ServiceProvider).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.ReferenceNumber).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Amount).HasPrecision(18, 2);
+
+            // العلاقة: BillPayment ينتمي لـ Account واحد
+            entity.HasOne(e => e.Account)
+                .WithMany(e => e.BillPayments)
+                .HasForeignKey(e => e.AccountId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

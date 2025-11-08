@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MHBank.API.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f499db8cebe92df6500fc0e8ebccd2aafa5baf6f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2760a22b1df74b695cabce91640e97e063ec1c13")]
 [assembly: System.Reflection.AssemblyProductAttribute("MHBank.API.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MHBank.API.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
