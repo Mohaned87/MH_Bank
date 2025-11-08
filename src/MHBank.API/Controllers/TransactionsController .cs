@@ -15,17 +15,20 @@ public class TransactionsController : ControllerBase
     private readonly ApplicationDbContext _context;
     private readonly TransactionLimitsService _limitsService;
     private readonly NotificationService _notificationService;
+    private readonly FraudDetectionService _fraudDetection;
     private readonly ILogger<TransactionsController> _logger;
 
     public TransactionsController(
         ApplicationDbContext context,
         TransactionLimitsService limitsService,
         NotificationService notificationService,
+        FraudDetectionService fraudDetection,
         ILogger<TransactionsController> logger)
     {
         _context = context;
         _limitsService = limitsService;
         _notificationService = notificationService;
+        _fraudDetection = fraudDetection;
         _logger = logger;
     }
 
@@ -67,6 +70,32 @@ public class TransactionsController : ControllerBase
             var (isAllowed, errorMessage) = await _limitsService.CanPerformTransactionAsync(fromAccount, request.Amount);
             if (!isAllowed)
                 return BadRequest(new { Message = errorMessage });
+
+            // فحص الاحتيال
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var fraudCheck = await _fraudDetection.CheckTransactionAsync(fromAccount, request.Amount, ipAddress);
+
+            if (fraudCheck.IsBlocked)
+            {
+                _logger.LogWarning("🚨 تم حظر معاملة مشبوهة: {AccountNumber} - {Amount}",
+                    fromAccount.AccountNumber, request.Amount);
+
+                return BadRequest(new
+                {
+                    Message = "تم حظر المعاملة لأسباب أمنية. يرجى الاتصال بالدعم.",
+                    RiskLevel = fraudCheck.RiskLevel.ToString(),
+                    Reasons = fraudCheck.SuspiciousReasons
+                });
+            }
+
+            if (fraudCheck.RequiresVerification)
+            {
+                _logger.LogWarning("⚠️ معاملة تحتاج تحقق: {AccountNumber} - {Amount}",
+                    fromAccount.AccountNumber, request.Amount);
+
+                // في الواقع، هنا نطلب OTP أو تأكيد إضافي
+                // لكن للبساطة، نكمل المعاملة مع تحذير
+            }
 
             // إنشاء رقم مرجعي
             var referenceNumber = GenerateReferenceNumber();
@@ -408,6 +437,48 @@ public class TransactionsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ خطأ في جلب الحدود");
+            return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// تحليل سلوك الحساب (كشف الأنماط المشبوهة)
+    /// </summary>
+    [HttpGet("fraud-analysis/{accountId}")]
+    public async Task<IActionResult> GetFraudAnalysis(Guid accountId)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            var account = await _context.BankAccounts
+                .FirstOrDefaultAsync(a => a.Id == accountId && a.UserId == userId.Value);
+
+            if (account == null)
+                return NotFound(new { Message = "الحساب غير موجود" });
+
+            var analysis = await _fraudDetection.AnalyzeAccountBehaviorAsync(accountId);
+
+            return Ok(new
+            {
+                Success = true,
+                AccountNumber = account.AccountNumber,
+                Analysis = new
+                {
+                    analysis.TotalTransactions,
+                    AverageAmount = $"{analysis.AverageAmount:N2}",
+                    MaxAmount = $"{analysis.MaxAmount:N2}",
+                    MostActiveHour = $"{analysis.MostActiveHour}:00",
+                    analysis.SuspiciousTransactionsCount,
+                    Status = analysis.SuspiciousTransactionsCount > 0 ? "⚠️ نشاط مشبوه" : "✅ آمن"
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في تحليل الحساب");
             return StatusCode(500, new { Message = "حدث خطأ" });
         }
     }
