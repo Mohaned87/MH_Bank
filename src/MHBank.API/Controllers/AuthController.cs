@@ -4,6 +4,7 @@ using MHBank.Core.DTOs;
 using MHBank.Core.Entities;
 using MHBank.Core.Interfaces;
 using MHBank.Infrastructure.Data;
+using MHBank.Infrastructure.Services;
 
 namespace MHBank.API.Controllers;
 
@@ -13,15 +14,18 @@ public class AuthController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly IJwtService _jwtService;
+    private readonly OtpService _otpService;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(
         ApplicationDbContext context,
         IJwtService jwtService,
+        OtpService otpService,
         ILogger<AuthController> logger)
     {
         _context = context;
         _jwtService = jwtService;
+        _otpService = otpService;
         _logger = logger;
     }
 
@@ -106,6 +110,36 @@ public class AuthController : ControllerBase
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
                 return Unauthorized(new { Message = "بيانات الدخول غير صحيحة" });
+            }
+
+            // التحقق من 2FA
+            if (user.TwoFactorEnabled)
+            {
+                // إذا لم يتم إرسال OTP بعد
+                if (string.IsNullOrEmpty(request.Otp))
+                {
+                    // إرسال OTP
+                    var (success, otp) = await _otpService.GenerateAndSendOtpAsync(user);
+
+                    _logger.LogInformation("📱 تم إرسال OTP للمستخدم: {Phone}", user.PhoneNumber);
+
+                    return Ok(new
+                    {
+                        RequiresTwoFactor = true,
+                        Message = "تم إرسال رمز التحقق إلى هاتفك",
+                        Otp = otp, // ⚠️ للتجربة فقط!
+                        ExpiresInMinutes = 5
+                    });
+                }
+
+                // التحقق من OTP
+                var isOtpValid = await _otpService.VerifyOtpAsync(user, request.Otp);
+                if (!isOtpValid)
+                {
+                    return Unauthorized(new { Message = "رمز التحقق غير صحيح أو منتهي الصلاحية" });
+                }
+
+                _logger.LogInformation("✅ تم التحقق من OTP بنجاح");
             }
 
             // تحديث آخر تسجيل دخول

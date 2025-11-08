@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\MH_Bank\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|d:\\mh_bank\\src\\mhbank.api\\controllers\\twofactorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|solutionrelative:src\\mhbank.api\\controllers\\twofactorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|d:\\mh_bank\\src\\mhbank.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|solutionrelative:src\\mhbank.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -18,32 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "TwoFactorController.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.API\\Controllers\\TwoFactorController.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.API\\Controllers\\TwoFactorController.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.API\\Controllers\\TwoFactorController.cs",
+              "RelativeToolTip": "src\\MHBank.API\\Controllers\\TwoFactorController.cs",
+              "ViewState": "AgIAABwBAAAAAAAAAAAAAEABAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T10:23:16.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Authdtos.cs",
               "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\Authdtos.cs",
               "RelativeDocumentMoniker": "src\\MHBank.Core\\DTOs\\Authdtos.cs",
               "ToolTip": "D:\\MH_Bank\\src\\MHBank.Core\\DTOs\\Authdtos.cs",
               "RelativeToolTip": "src\\MHBank.Core\\DTOs\\Authdtos.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAYwB8AAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T23:27:27.684Z",
+              "WhenOpened": "2025-11-08T09:15:15.185Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.API\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "src\\MHBank.API\\Controllers\\AuthController.cs",
               "ToolTip": "D:\\MH_Bank\\src\\MHBank.API\\Controllers\\AuthController.cs",
               "RelativeToolTip": "src\\MHBank.API\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAPoAAAAAAAAAAAAuwFEBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAhwHAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T23:12:43.698Z",
+              "WhenOpened": "2025-11-08T09:14:23.077Z",
               "EditorCaption": ""
             }
           ]

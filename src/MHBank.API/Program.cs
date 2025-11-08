@@ -21,6 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // JWT Service
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<TransactionLimitsService>();
+builder.Services.AddScoped<OtpService>();
 
 // JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"] ?? "MHBank-Super-Secret-Key-Min-32-Chars-For-JWT-2025!";

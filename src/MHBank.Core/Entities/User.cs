@@ -22,6 +22,12 @@ public class User
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastLoginAt { get; set; }
 
+    // 2FA (Two-Factor Authentication)
+    public bool TwoFactorEnabled { get; set; }
+    public string? TwoFactorSecret { get; set; }
+    public string? CurrentOtp { get; set; }
+    public DateTime? OtpExpiresAt { get; set; }
+
     // KYC (التحقق من الهوية)
     public KycStatus KycStatus { get; set; } = KycStatus.Pending;
     public string? IdDocumentPath { get; set; }
