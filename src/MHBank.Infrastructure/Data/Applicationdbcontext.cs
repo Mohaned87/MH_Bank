@@ -19,6 +19,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<Card> Cards => Set<Card>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -115,6 +117,25 @@ public class ApplicationDbContext : DbContext
             // العلاقة: RefreshToken ينتمي لـ User واحد
             entity.HasOne(e => e.User)
                 .WithMany(e => e.RefreshTokens)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        // ═══════════════════════════════════════════
+        // Notification Configuration
+        // ═══════════════════════════════════════════
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.CreatedAt);
+            entity.HasIndex(e => e.IsRead);
+
+            entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Message).IsRequired().HasMaxLength(1000);
+
+            // العلاقة: Notification ينتمي لـ User واحد
+            entity.HasOne(e => e.User)
+                .WithMany(e => e.Notifications)
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });

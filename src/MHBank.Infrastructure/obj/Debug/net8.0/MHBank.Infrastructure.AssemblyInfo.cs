@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MHBank.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ec8d027cfc955b034f404f647fc2ba8c34d725b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f499db8cebe92df6500fc0e8ebccd2aafa5baf6f")]
 [assembly: System.Reflection.AssemblyProductAttribute("MHBank.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MHBank.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

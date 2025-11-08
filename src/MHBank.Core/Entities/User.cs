@@ -39,6 +39,7 @@ public class User
     // العلاقات
     public virtual ICollection<BankAccount> Accounts { get; set; } = new List<BankAccount>();
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
     // Helper
     public string FullName => $"{FirstName} {LastName}";

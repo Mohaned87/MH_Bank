@@ -14,15 +14,18 @@ public class TransactionsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly TransactionLimitsService _limitsService;
+    private readonly NotificationService _notificationService;
     private readonly ILogger<TransactionsController> _logger;
 
     public TransactionsController(
         ApplicationDbContext context,
         TransactionLimitsService limitsService,
+        NotificationService notificationService,
         ILogger<TransactionsController> logger)
     {
         _context = context;
         _limitsService = limitsService;
+        _notificationService = notificationService;
         _logger = logger;
     }
 
@@ -99,6 +102,20 @@ public class TransactionsController : ControllerBase
 
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
+
+            // إرسال إشعارات
+            try
+            {
+                // إشعار للمُرسل
+                await _notificationService.NotifyTransactionAsync(fromAccount.UserId, trans, false);
+
+                // إشعار للمستقبل
+                await _notificationService.NotifyTransactionAsync(toAccount.UserId, trans, true);
+            }
+            catch (Exception notifEx)
+            {
+                _logger.LogWarning(notifEx, "⚠️ فشل إرسال الإشعارات");
+            }
 
             _logger.LogInformation("✅ تحويل ناجح: {Amount} من {From} إلى {To}",
                 request.Amount, fromAccount.AccountNumber, toAccount.AccountNumber);
@@ -287,6 +304,60 @@ public class TransactionsController : ControllerBase
     }
 
     /// <summary>
+    /// تحديث حدود حساب معين (Admin أو Owner)
+    /// </summary>
+    [HttpPatch("limits/{accountId}")]
+    public async Task<IActionResult> UpdateTransactionLimits(
+        Guid accountId,
+        [FromBody] UpdateLimitsRequest request)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            // التحقق من ملكية الحساب
+            var account = await _context.BankAccounts
+                .FirstOrDefaultAsync(a => a.Id == accountId && a.UserId == userId.Value);
+
+            if (account == null)
+                return NotFound(new { Message = "الحساب غير موجود" });
+
+            // تحديث الحدود
+            if (request.DailyLimit.HasValue && request.DailyLimit.Value > 0)
+            {
+                account.DailyTransferLimit = request.DailyLimit.Value;
+            }
+
+            if (request.MonthlyLimit.HasValue && request.MonthlyLimit.Value > 0)
+            {
+                account.MonthlyTransferLimit = request.MonthlyLimit.Value;
+            }
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ تم تحديث حدود الحساب {AccountNumber}", account.AccountNumber);
+
+            return Ok(new
+            {
+                Success = true,
+                Message = "تم تحديث الحدود بنجاح",
+                NewLimits = new
+                {
+                    account.DailyTransferLimit,
+                    account.MonthlyTransferLimit
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في تحديث الحدود");
+            return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
     /// الحصول على ملخص حدود المعاملات للحساب
     /// </summary>
     [HttpGet("limits/{accountId}")]
@@ -373,4 +444,10 @@ public record DepositRequest
 {
     public Guid AccountId { get; init; }
     public decimal Amount { get; init; }
+}
+
+public record UpdateLimitsRequest
+{
+    public decimal? DailyLimit { get; init; }
+    public decimal? MonthlyLimit { get; init; }
 }
