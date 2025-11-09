@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MHBank.Mobile.Models;
+﻿namespace MHBank.Mobile.Models;
 
 public class LoginRequest
 {
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string? Otp { get; set; }
+}
+
+public class RegisterRequest
+{
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string PhoneNumber { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }
 
 public class LoginResponse
@@ -22,6 +25,13 @@ public class LoginResponse
     public User? User { get; set; }
     public bool RequiresTwoFactor { get; set; }
     public string? Otp { get; set; }
+}
+
+public class RegisterResponse
+{
+    public bool Success { get; set; }
+    public string? Message { get; set; }
+    public User? User { get; set; }
 }
 
 public class ApiResponse<T>

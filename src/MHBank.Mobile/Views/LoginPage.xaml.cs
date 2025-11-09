@@ -94,6 +94,6 @@ public partial class LoginPage : ContentPage
 
     private async void OnRegisterTapped(object sender, EventArgs e)
     {
-        await DisplayAlert("قريباً", "صفحة التسجيل قيد التطوير", "حسناً");
+        await Shell.Current.GoToAsync(nameof(RegisterPage));
     }
 }

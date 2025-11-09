@@ -10,7 +10,10 @@
     <ShellContent
         Route="login"
         ContentTemplate="{DataTemplate views:LoginPage}" />
-
+    <!-- Register -->
+    <ShellContent
+      Route="login"
+      ContentTemplate="{DataTemplate views:RegisterPage}" />
     <!-- Home -->
     <ShellContent
         Route="home"

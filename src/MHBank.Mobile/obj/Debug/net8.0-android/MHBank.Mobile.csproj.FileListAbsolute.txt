@@ -124,6 +124,8 @@ D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\bin\com.mhbank.mob
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\res\values\colors.xml
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\uploadflags.txt
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\resolvedassemblies.hash
+D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\arm64-v8a\System.Private.CoreLib.dll
+D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\armeabi-v7a\System.Private.CoreLib.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\ar\Microsoft.Maui.Controls.resources.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\ca\Microsoft.Maui.Controls.resources.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\CommunityToolkit.Maui.Core.dll
@@ -275,7 +277,6 @@ D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Net.
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Numerics.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Numerics.Vectors.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.ObjectModel.dll
-D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Private.CoreLib.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Private.DataContractSerialization.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Private.Uri.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Private.Xml.dll
@@ -360,6 +361,8 @@ D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\tr\Microsof
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\uk\Microsoft.Maui.Controls.resources.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\vi\Microsoft.Maui.Controls.resources.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\WindowsBase.dll
+D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\x86\System.Private.CoreLib.dll
+D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\x86_64\System.Private.CoreLib.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\Xamarin.Android.Glide.Annotations.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\Xamarin.Android.Glide.DiskLruCache.dll
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\Xamarin.Android.Glide.dll
@@ -1045,3 +1048,4 @@ D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\stamp\_ConvertResourcesCas
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\stamp\_GenerateJavaStubs.stamp
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\stamp\_GeneratePackageManagerJava.stamp
 D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\stamp\_ResolveLibraryProjectImports.stamp
+D:\MH_Bank\src\MHBank.Mobile\obj\Debug\net8.0-android\android\assets\System.Private.CoreLib.dll

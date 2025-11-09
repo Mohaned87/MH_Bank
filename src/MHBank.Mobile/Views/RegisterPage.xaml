@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.RegisterPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource White}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+
+            <!-- Back Button -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Label Text="←"
+                       FontSize="24"
+                       TextColor="{StaticResource Black}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="العودة"
+                       FontSize="16"
+                       TextColor="{StaticResource Black}"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+            <!-- Title -->
+            <Label Text="📱 إنشاء حساب جديد"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Black}"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,30" />
+
+            <!-- First Name -->
+            <Label Text="الاسم الأول"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,0,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="FirstNameEntry"
+                       Placeholder="أدخل اسمك الأول"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Last Name -->
+            <Label Text="الاسم الأخير"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,0,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="LastNameEntry"
+                       Placeholder="أدخل اسمك الأخير"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Email -->
+            <Label Text="البريد الإلكتروني"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,0,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="EmailEntry"
+                       Placeholder="example@email.com"
+                       Keyboard="Email"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Phone Number -->
+            <Label Text="رقم الهاتف"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,0,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="PhoneEntry"
+                       Placeholder="07XXXXXXXXX"
+                       Keyboard="Telephone"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Password -->
+            <Label Text="كلمة المرور"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,0,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="PasswordEntry"
+                       Placeholder="أدخل كلمة المرور"
+                       IsPassword="True"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Confirm Password -->
+            <Label Text="تأكيد كلمة المرور"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,0,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="ConfirmPasswordEntry"
+                       Placeholder="أعد إدخال كلمة المرور"
+                       IsPassword="True"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Terms Checkbox -->
+            <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+                <CheckBox x:Name="TermsCheckBox"
+                          Color="{StaticResource Primary}" />
+                <Label Text="أوافق على الشروط والأحكام"
+                       FontSize="14"
+                       TextColor="{StaticResource Gray}"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnTermsTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+            <!-- Register Button -->
+            <Button x:Name="RegisterButton"
+                    Text="إنشاء الحساب"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnRegisterClicked"
+                    Margin="0,20,0,0" />
+
+            <!-- Login Link -->
+            <HorizontalStackLayout HorizontalOptions="Center"
+                                   Spacing="5"
+                                   Margin="0,20,0,20">
+                <Label Text="لديك حساب؟"
+                       TextColor="{StaticResource Gray}"
+                       FontSize="14" />
+                <Label Text="سجّل دخول"
+                       TextColor="{StaticResource Primary}"
+                       FontSize="14"
+                       FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLoginTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

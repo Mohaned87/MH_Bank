@@ -163,4 +163,40 @@ public class ApiService : IApiService
             return null;
         }
     }
+
+    public async Task<RegisterResponse?> RegisterAsync(RegisterRequest request)
+    {
+        try
+        {
+            var url = $"{BaseUrl}/api/Auth/register";
+            System.Diagnostics.Debug.WriteLine($"🔵 POST {url}");
+
+            var json = JsonSerializer.Serialize(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            System.Diagnostics.Debug.WriteLine($"🔵 Status: {(int)response.StatusCode}");
+            System.Diagnostics.Debug.WriteLine($"🔵 Response: {responseContent}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Deserialize<RegisterResponse>(responseContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error: {responseContent}");
+                return new RegisterResponse { Success = false, Message = responseContent };
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"❌ Exception: {ex.Message}");
+            return new RegisterResponse { Success = false, Message = ex.Message };
+        }
+    }
 }

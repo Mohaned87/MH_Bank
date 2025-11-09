@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using MHBank.API.DTOs_;
 using MHBank.Core.DTOs;
 using MHBank.Core.Entities;
 using MHBank.Core.Interfaces;
 using MHBank.Infrastructure.Data;
 using MHBank.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MHBank.API.Controllers;
 
@@ -33,59 +35,123 @@ public class AuthController : ControllerBase
     /// تسجيل مستخدم جديد
     /// </summary>
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    [AllowAnonymous]
+    public async Task<IActionResult> Register([FromBody] RegisterRequestDto dto)
     {
         try
         {
-            // التحقق من عدم وجود المستخدم
-            var exists = await _context.Users.AnyAsync(u =>
-                u.Email == request.Email ||
-                u.PhoneNumber == request.PhoneNumber);
+            _logger.LogInformation("🔵 Register attempt: {Email}", dto.Email);
 
-            if (exists)
+            // التحقق من البيانات
+            if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
             {
-                return BadRequest(new { Message = "البريد الإلكتروني أو رقم الهاتف مسجل مسبقاً" });
+                return BadRequest(new { Success = false, Message = "البريد وكلمة المرور مطلوبان" });
             }
 
-            // التحقق من صحة رقم الهاتف (07xxxxxxxxx)
-            if (!request.PhoneNumber.StartsWith("07") ||
-                (request.PhoneNumber.Length != 11 && request.PhoneNumber.Length != 12))
+            // التحقق من وجود المستخدم
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == dto.Email || u.PhoneNumber == dto.PhoneNumber);
+
+            if (existingUser != null)
             {
-                return BadRequest(new { Message = "رقم الهاتف يجب أن يبدأ بـ 07 ويحتوي على 11 أو 12 رقم" });
+                return BadRequest(new { Success = false, Message = "المستخدم موجود بالفعل" });
             }
 
             // إنشاء المستخدم
+            var userId = Guid.NewGuid();
             var user = new User
             {
-                Id = Guid.NewGuid(),
-                Email = request.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                PhoneNumber = request.PhoneNumber,
-                DateOfBirth = request.DateOfBirth,
+                Id = userId,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                PhoneNumber = dto.PhoneNumber,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                CreatedAt = DateTime.UtcNow,
                 IsActive = true,
-                CreatedAt = DateTime.UtcNow
+                TwoFactorEnabled = false
             };
 
             _context.Users.Add(user);
+
+            // حفظ المستخدم أولاً
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("✅ تم تسجيل مستخدم جديد: {Phone}", user.PhoneNumber);
+            _logger.LogInformation("✅ User saved: {UserId}", userId);
+
+            // توليد Account Number و IBAN
+            var random = new Random();
+            var accountNumber = random.Next(1000000000, int.MaxValue).ToString();
+            var iban = $"IQ{random.Next(10, 99)}MHBK{accountNumber}"; // IBAN عراقي
+
+            // إنشاء الحساب البنكي
+            var account = new BankAccount
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                AccountNumber = accountNumber,
+                IBAN = iban, // مهم جداً!
+                AccountType = AccountType.Checking,
+                Balance = 0,
+                Currency = "IQD",
+                IsActive = true,
+                OpenedAt = DateTime.UtcNow,
+                DailyTransferLimit = 10000000,
+                MonthlyTransferLimit = 50000000,
+                CurrentDailyTransferred = 0,
+                CurrentMonthlyTransferred = 0
+            };
+
+            _context.BankAccounts.Add(account);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ Account saved: {AccountNumber}, IBAN: {IBAN}", accountNumber, iban);
+            _logger.LogInformation("✅ Registration complete: {Email}", dto.Email);
 
             return Ok(new
             {
                 Success = true,
-                Message = "تم التسجيل بنجاح!",
-                UserId = user.Id
+                Message = "تم إنشاء الحساب بنجاح",
+                User = new
+                {
+                    user.Id,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                    user.PhoneNumber
+                }
+            });
+        }
+        catch (DbUpdateException dbEx)
+        {
+            _logger.LogError(dbEx, "❌ Database error");
+            _logger.LogError("❌ Inner Exception: {Inner}", dbEx.InnerException?.Message);
+
+            return StatusCode(500, new
+            {
+                Success = false,
+                Message = "خطأ في قاعدة البيانات",
+                Details = dbEx.InnerException?.Message ?? dbEx.Message
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ خطأ في التسجيل");
-            return StatusCode(500, new { Message = "حدث خطأ أثناء التسجيل" });
+            _logger.LogError(ex, "❌ خطأ في تسجيل المستخدم");
+
+            return StatusCode(500, new
+            {
+                Success = false,
+                Message = "حدث خطأ أثناء التسجيل",
+                Details = ex.InnerException?.Message ?? ex.Message
+            });
         }
     }
+    private string GenerateAccountNumber()
+    {
+        var random = new Random();
+        return random.Next(1000000000, int.MaxValue).ToString();
+    }
+
 
     /// <summary>
     /// تسجيل الدخول - يمكن استخدام رقم الهاتف أو البريد
@@ -332,7 +398,20 @@ public class AuthController : ControllerBase
             }
 
             // جلب المستخدم من قاعدة البيانات
-            var user = await _context.Users.FindAsync(Guid.Parse(userId));
+            //var user = await _context.Users.FindAsync(Guid.Parse(userId));
+            var user = await _context.Users
+           .Where(u => u.Id == Guid.Parse(userId))
+           .Select(u => new
+           {
+               u.Id,
+               u.Email,
+               u.FirstName,
+               u.LastName,
+               FullName = u.FirstName + " " + u.LastName,
+               u.PhoneNumber,
+               u.CreatedAt
+           })
+           .FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -365,7 +444,6 @@ public class AuthController : ControllerBase
 // ═══════════════════════════════════════════════
 // Request/Response Models
 // ═══════════════════════════════════════════════
-
 public record RefreshTokenRequest
 {
     public string RefreshToken { get; init; } = string.Empty;

@@ -20,13 +20,14 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        // Services - بالترتيب الصحيح
+        // Services
         builder.Services.AddSingleton<IStorageService, StorageService>();
         builder.Services.AddSingleton<IApiService, ApiService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
 
-        // Views with DI
+        // Views - مهم جداً!
         builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<RegisterPage>();
         builder.Services.AddTransient<HomePage>();
 
 #if DEBUG

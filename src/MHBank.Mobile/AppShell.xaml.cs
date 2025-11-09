@@ -10,6 +10,7 @@ public partial class AppShell : Shell
 
         // تسجيل الـ Routes
         Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+        Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
         Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
     }
 }

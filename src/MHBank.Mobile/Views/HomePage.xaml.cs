@@ -189,11 +189,21 @@ public partial class HomePage : ContentPage
 
     private async void OnLogoutClicked(object sender, EventArgs e)
     {
-        var confirm = await DisplayAlert("تسجيل الخروج", "هل أنت متأكد؟", "نعم", "لا");
-        if (confirm)
+        try
         {
-            await _authService.LogoutAsync();
-            await Shell.Current.GoToAsync("//login");
+            var confirm = await DisplayAlert("تسجيل الخروج", "هل أنت متأكد؟", "نعم", "لا");
+            if (confirm)
+            {
+                await _authService.LogoutAsync();
+
+                // تغيير MainPage بدلاً من Navigation
+                Application.Current.MainPage = new AppShell();
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("خطأ", ex.Message, "حسناً");
         }
     }
+
 }
