@@ -9,6 +9,18 @@ using MHBank.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 // ═══════════════════════════════════════════════
 // إضافة الخدمات
 // ═══════════════════════════════════════════════
@@ -89,7 +101,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
-
+app.UseCors(policy =>
+    policy.AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader());
 // ═══════════════════════════════════════════════
 // Middleware Pipeline
 // ═══════════════════════════════════════════════
@@ -119,5 +134,6 @@ app.MapGet("/", () => new
     Version = "v1.0",
     Swagger = "/swagger"
 });
+app.UseCors("AllowAll");
 
 app.Run();

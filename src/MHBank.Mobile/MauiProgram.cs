@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using MHBank.Mobile.Services;
+using MHBank.Mobile.Views;
 using CommunityToolkit.Maui;
 
 namespace MHBank.Mobile;
@@ -17,6 +19,15 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+
+        // Services - بالترتيب الصحيح
+        builder.Services.AddSingleton<IStorageService, StorageService>();
+        builder.Services.AddSingleton<IApiService, ApiService>();
+        builder.Services.AddSingleton<IAuthService, AuthService>();
+
+        // Views with DI
+        builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<HomePage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -69,10 +69,11 @@
 
             <!-- Login Button -->
             <Button
-                Text="تسجيل الدخول"
-                Style="{StaticResource PrimaryButton}"
-                Clicked="OnLoginClicked"
-                Margin="0,10,0,0" />
+    x:Name="LoginButton"
+    Text="تسجيل الدخول"
+    Style="{StaticResource PrimaryButton}"
+    Clicked="OnLoginClicked"
+    Margin="0,10,0,0" />
 
             <!-- Register Link -->
             <HorizontalStackLayout

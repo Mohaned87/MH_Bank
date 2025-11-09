@@ -3,12 +3,56 @@
   "WorkspaceRootPath": "D:\\MH_Bank\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|d:\\mh_bank\\src\\mhbank.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|solutionrelative:src\\mhbank.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\views\\homepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\views\\homepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\views\\homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\views\\homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\services\\iapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\services\\iapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|d:\\mh_bank\\src\\mhbank.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|solutionrelative:src\\mhbank.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|d:\\mh_bank\\src\\mhbank.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|solutionrelative:src\\mhbank.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\mhbank.mobile.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\mhbank.mobile.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\platforms\\android\\mainapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\platforms\\android\\mainapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|d:\\mh_bank\\src\\mhbank.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|solutionrelative:src\\mhbank.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|d:\\mh_bank\\src\\mhbank.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{841C721D-B586-4259-B2EE-E6173EC48EA9}|src\\MHBank.API\\MHBank.API.csproj|solutionrelative:src\\mhbank.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,28 +63,40 @@
       "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\views\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\views\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\views\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\views\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\views\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\views\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\mhbank.mobile.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\mhbank.mobile.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\services\\storageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\services\\storageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\services\\istorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\services\\istorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\models\\apimodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\models\\apimodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\models\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\models\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|d:\\mh_bank\\src\\mhbank.mobile\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F40D9C9C-462C-410E-A212-886E27F2797F}|src\\MHBank.Mobile\\MHBank.Mobile.csproj|solutionrelative:src\\mhbank.mobile\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,122 +106,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "HomePage.xaml.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
-              "RelativeToolTip": "src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T22:15:49.233Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "HomePage.xaml",
               "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\HomePage.xaml",
               "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Views\\HomePage.xaml",
               "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\HomePage.xaml",
               "RelativeToolTip": "src\\MHBank.Mobile\\Views\\HomePage.xaml",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAC0AAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAmwCwAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-08T22:15:29.006Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "LoginPage.xaml.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
-              "RelativeToolTip": "src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAA1wB8AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T15:55:10.721Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "LoginPage.xaml",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Views\\LoginPage.xaml",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml",
-              "RelativeToolTip": "src\\MHBank.Mobile\\Views\\LoginPage.xaml",
-              "ViewState": "AgIAACwAAAAAAAAAAAAYwEMAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-08T15:54:49.358Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AppShell.xaml",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\AppShell.xaml",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml",
-              "RelativeToolTip": "src\\MHBank.Mobile\\AppShell.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-08T15:46:06.448Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "App.xaml",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\App.xaml",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\App.xaml",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\App.xaml",
-              "RelativeToolTip": "src\\MHBank.Mobile\\App.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-08T15:45:39.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MauiProgram.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\MauiProgram.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\MauiProgram.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\MauiProgram.cs",
-              "RelativeToolTip": "src\\MHBank.Mobile\\MauiProgram.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T15:44:44.567Z"
+              "WhenOpened": "2025-11-09T11:36:56.029Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AppShell.xaml.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\AppShell.xaml.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml.cs",
-              "RelativeToolTip": "src\\MHBank.Mobile\\AppShell.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABCAAAAAAAAAA==",
+              "Title": "HomePage.xaml.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Views\\HomePage.xaml.cs",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAmwLAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T15:44:29.549Z",
+              "WhenOpened": "2025-11-09T11:35:44.357Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.API\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "src\\MHBank.API\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAD4v3MAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T11:09:56.756Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\App.xaml.cs",
-              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\App.xaml.cs",
-              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\App.xaml.cs",
-              "RelativeToolTip": "src\\MHBank.Mobile\\App.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Title": "MainApplication.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Platforms\\Android\\MainApplication.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Platforms\\Android\\MainApplication.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Platforms\\Android\\MainApplication.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Platforms\\Android\\MainApplication.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-08T15:43:47.874Z"
+              "WhenOpened": "2025-11-09T10:35:41.508Z"
             },
             {
               "$type": "Document",
@@ -175,9 +165,237 @@
               "RelativeDocumentMoniker": "src\\MHBank.Mobile\\MHBank.Mobile.csproj",
               "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\MHBank.Mobile.csproj",
               "RelativeToolTip": "src\\MHBank.Mobile\\MHBank.Mobile.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-08T15:42:58.608Z"
+              "WhenOpened": "2025-11-09T10:16:33.105Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.API\\Program.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.API\\Program.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.API\\Program.cs",
+              "RelativeToolTip": "src\\MHBank.API\\Program.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAIcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T09:52:38.273Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "src\\MHBank.API\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "src\\MHBank.API\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-09T09:51:03.138Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "src\\MHBank.API\\appsettings.Development.json",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.API\\appsettings.Development.json",
+              "RelativeToolTip": "src\\MHBank.API\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-09T09:50:37.46Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.API\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\MHBank.API\\appsettings.json",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.API\\appsettings.json",
+              "RelativeToolTip": "src\\MHBank.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-09T09:48:58.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AppShell.xaml.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\AppShell.xaml.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\AppShell.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:41:38.372Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AppShell.xaml",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\AppShell.xaml",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\AppShell.xaml",
+              "RelativeToolTip": "src\\MHBank.Mobile\\AppShell.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-08T23:41:32.703Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "LoginPage.xaml",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Views\\LoginPage.xaml",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Views\\LoginPage.xaml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-08T23:40:24.33Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "LoginPage.xaml.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Views\\LoginPage.xaml.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAIwGIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:37:11.372Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MauiProgram.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\MauiProgram.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\MauiProgram.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\MauiProgram.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\MauiProgram.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAkwCUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:22:53.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Services\\AuthService.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\AuthService.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:20:37.851Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\IAuthService.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Services\\IAuthService.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\IAuthService.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Services\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:20:11.201Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\ApiService.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Services\\ApiService.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\ApiService.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Services\\ApiService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:19:26.36Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IApiService.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\IApiService.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Services\\IApiService.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\IApiService.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Services\\IApiService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:18:29.13Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Storageservice.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\Storageservice.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Services\\Storageservice.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\Storageservice.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Services\\Storageservice.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:17:28.333Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "IStorageService.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\IStorageService.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Services\\IStorageService.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Services\\IStorageService.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Services\\IStorageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:16:43.058Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Apimodels.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\Apimodels.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Models\\Apimodels.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\Apimodels.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Models\\Apimodels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:15:52.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Transaction.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\Transaction.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Models\\Transaction.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\Transaction.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Models\\Transaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:15:20.107Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "BankAccount.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\BankAccount.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Models\\BankAccount.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\BankAccount.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Models\\BankAccount.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:14:41.607Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\User.cs",
+              "RelativeDocumentMoniker": "src\\MHBank.Mobile\\Models\\User.cs",
+              "ToolTip": "D:\\MH_Bank\\src\\MHBank.Mobile\\Models\\User.cs",
+              "RelativeToolTip": "src\\MHBank.Mobile\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-08T23:13:59.052Z"
             }
           ]
         }
