@@ -10,7 +10,7 @@ public class ApiService : IApiService
     private readonly HttpClient _httpClient;
     private readonly IStorageService _storageService;
 
-    private const string BaseUrl = "http://192.168.1.106:5185";
+    private const string BaseUrl = "http://192.168.1.105:5185";
 
     public ApiService(IStorageService storageService)
     {
@@ -34,9 +34,17 @@ public class ApiService : IApiService
     private async Task SetAuthorizationHeaderAsync()
     {
         var token = await _storageService.GetAsync("access_token");
+
+        System.Diagnostics.Debug.WriteLine($"🔑 Token from storage: {(string.IsNullOrEmpty(token) ? "NULL/EMPTY" : token.Substring(0, Math.Min(30, token.Length)) + "...")}");
+
         if (!string.IsNullOrEmpty(token))
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            System.Diagnostics.Debug.WriteLine("✅ Authorization header set");
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine("❌ No token available!");
         }
     }
 
@@ -85,6 +93,42 @@ public class ApiService : IApiService
         {
             System.Diagnostics.Debug.WriteLine($"❌ Exception: {ex.Message}");
             return new LoginResponse { Success = false, Message = ex.Message };
+        }
+    }
+
+    public async Task<RegisterResponse?> RegisterAsync(RegisterRequest request)
+    {
+        try
+        {
+            var url = $"{BaseUrl}/api/Auth/register";
+            System.Diagnostics.Debug.WriteLine($"🔵 POST {url}");
+
+            var json = JsonSerializer.Serialize(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            System.Diagnostics.Debug.WriteLine($"🔵 Status: {(int)response.StatusCode}");
+            System.Diagnostics.Debug.WriteLine($"🔵 Response: {responseContent}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Deserialize<RegisterResponse>(responseContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error: {responseContent}");
+                return new RegisterResponse { Success = false, Message = responseContent };
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"❌ Exception: {ex.Message}");
+            return new RegisterResponse { Success = false, Message = ex.Message };
         }
     }
 
@@ -138,37 +182,88 @@ public class ApiService : IApiService
         }
     }
 
+    public async Task<TransactionsResponse?> GetAllTransactionsAsync()
+    {
+        try
+        {
+            await SetAuthorizationHeaderAsync();
+            var url = $"{BaseUrl}/api/Transactions";
+            System.Diagnostics.Debug.WriteLine($"🔵 GET {url}");
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            System.Diagnostics.Debug.WriteLine($"🔵 Status: {(int)response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Deserialize<TransactionsResponse>(content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            return new TransactionsResponse { Success = false };
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"❌ GetAllTransactions: {ex.Message}");
+            return new TransactionsResponse { Success = false };
+        }
+    }
+
     public async Task<User?> GetCurrentUserAsync()
     {
         try
         {
             await SetAuthorizationHeaderAsync();
             var url = $"{BaseUrl}/api/Auth/me";
+
+            System.Diagnostics.Debug.WriteLine($"🔵 GET {url}");
+
             var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            System.Diagnostics.Debug.WriteLine($"🔵 Status: {(int)response.StatusCode}");
+            System.Diagnostics.Debug.WriteLine($"🔵 Response: {content}");
 
             if (response.IsSuccessStatusCode)
             {
-                var content = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponse<User>>(content, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
-                return result?.Data;
+
+                if (result?.Data != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"✅ User deserialized: {result.Data.Email}");
+                    return result.Data;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("❌ Result.Data is null");
+                }
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Failed status: {response.StatusCode}");
+            }
+
             return null;
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"❌ GetCurrentUser: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"❌ GetCurrentUser Exception: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"❌ Stack: {ex.StackTrace}");
             return null;
         }
     }
 
-    public async Task<RegisterResponse?> RegisterAsync(RegisterRequest request)
+    public async Task<TransferResponse?> TransferAsync(TransferRequest request)
     {
         try
         {
-            var url = $"{BaseUrl}/api/Auth/register";
+            await SetAuthorizationHeaderAsync();
+            var url = $"{BaseUrl}/api/Transactions/transfer";
             System.Diagnostics.Debug.WriteLine($"🔵 POST {url}");
 
             var json = JsonSerializer.Serialize(request);
@@ -182,7 +277,7 @@ public class ApiService : IApiService
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonSerializer.Deserialize<RegisterResponse>(responseContent, new JsonSerializerOptions
+                return JsonSerializer.Deserialize<TransferResponse>(responseContent, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -190,13 +285,18 @@ public class ApiService : IApiService
             else
             {
                 System.Diagnostics.Debug.WriteLine($"❌ Error: {responseContent}");
-                return new RegisterResponse { Success = false, Message = responseContent };
+                return new TransferResponse { Success = false, Message = responseContent };
             }
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"❌ Exception: {ex.Message}");
-            return new RegisterResponse { Success = false, Message = ex.Message };
+            System.Diagnostics.Debug.WriteLine($"❌ Transfer Exception: {ex.Message}");
+            return new TransferResponse { Success = false, Message = ex.Message };
         }
+    }
+
+    public async Task<string?> GetStoredTokenAsync()
+    {
+        return await _storageService.GetAsync("access_token");
     }
 }

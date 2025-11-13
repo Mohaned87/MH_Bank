@@ -153,6 +153,7 @@ public class TransactionsController : ControllerBase
             {
                 Success = true,
                 Message = "تم التحويل بنجاح",
+                TransactionId = trans.Id,  // ← أضف هذا
                 ReferenceNumber = referenceNumber,
                 Transaction = new
                 {
@@ -496,6 +497,116 @@ public class TransactionsController : ControllerBase
     private string GenerateReferenceNumber()
     {
         return $"TRX{DateTime.UtcNow:yyyyMMddHHmmss}{new Random().Next(1000, 9999)}";
+    }
+
+    /// <summary>
+    /// الحصول على جميع معاملات المستخدم (لكل حساباته)
+    /// </summary>
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetAllUserTransactions()
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            _logger.LogInformation("Getting all transactions for user: {UserId}", userId);
+
+            // جلب جميع حسابات المستخدم
+            var userAccountIds = await _context.BankAccounts
+                .Where(a => a.UserId == userId.Value)
+                .Select(a => a.Id)
+                .ToListAsync();
+
+            // جلب المعاملات
+            var transactions = await _context.Transactions
+                .Include(t => t.Account)
+                .Where(t => userAccountIds.Contains(t.AccountId))
+                .OrderByDescending(t => t.CreatedAt)
+                .Select(t => new
+                {
+                    t.Id,
+                    t.ReferenceNumber,
+                    Type = t.Type.ToString(),
+                    Status = t.Status.ToString(),
+                    t.Amount,
+                    t.Currency,
+                    t.Description,
+                    t.CreatedAt,
+                    t.CompletedAt,
+                    AccountNumber = t.Account.AccountNumber
+                })
+                .ToListAsync();
+
+            _logger.LogInformation("Found {Count} transactions", transactions.Count);
+
+            return Ok(new
+            {
+                Success = true,
+                TotalTransactions = transactions.Count,
+                Transactions = transactions
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting user transactions");
+            return StatusCode(500, new { Success = false, Message = "خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// الحصول على آخر المعاملات (لكل حسابات المستخدم)
+    /// </summary>
+    [HttpGet("recent")]
+    [Authorize]
+    public async Task<IActionResult> GetRecentTransactions()
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            // جلب جميع حسابات المستخدم
+            var userAccountIds = await _context.BankAccounts
+                .Where(a => a.UserId == userId.Value)
+                .Select(a => a.Id)
+                .ToListAsync();
+
+            // جلب آخر 5 معاملات
+            var transactions = await _context.Transactions
+                .Include(t => t.Account)
+                .Where(t => userAccountIds.Contains(t.AccountId))
+                .OrderByDescending(t => t.CreatedAt)
+                .Take(5)
+                .Select(t => new
+                {
+                    t.Id,
+                    t.ReferenceNumber,
+                    Type = t.Type.ToString(),
+                    Status = t.Status.ToString(),
+                    t.Amount,
+                    t.Currency,
+                    t.Description,
+                    t.CreatedAt,
+                    AccountNumber = t.Account.AccountNumber
+                })
+                .ToListAsync();
+
+            return Ok(new
+            {
+                Success = true,
+                TotalTransactions = transactions.Count,
+                Transactions = transactions
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting recent transactions");
+            return StatusCode(500, new { Success = false, Message = "خطأ" });
+        }
     }
 }
 

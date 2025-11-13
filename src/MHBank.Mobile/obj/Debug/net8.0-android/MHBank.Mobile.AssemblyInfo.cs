@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MHBank.Mobile")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+3c97ecb4a7184180059476499040ceab13aab20d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+ae8c1ec732fc70b71172601a725be5ab4c8fe980")]
 [assembly: System.Reflection.AssemblyProductAttribute("MHBank.Mobile")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MHBank.Mobile")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

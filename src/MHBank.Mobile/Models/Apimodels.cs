@@ -16,6 +16,14 @@ public class RegisterRequest
     public string Password { get; set; } = string.Empty;
 }
 
+public class TransferRequest
+{
+    public Guid FromAccountId { get; set; }
+    public string ToAccountNumber { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+    public string Description { get; set; } = string.Empty;
+}
+
 public class LoginResponse
 {
     public bool Success { get; set; }
@@ -32,6 +40,13 @@ public class RegisterResponse
     public bool Success { get; set; }
     public string? Message { get; set; }
     public User? User { get; set; }
+}
+
+public class TransferResponse
+{
+    public bool Success { get; set; }
+    public string? Message { get; set; }
+    public Guid? TransactionId { get; set; }
 }
 
 public class ApiResponse<T>

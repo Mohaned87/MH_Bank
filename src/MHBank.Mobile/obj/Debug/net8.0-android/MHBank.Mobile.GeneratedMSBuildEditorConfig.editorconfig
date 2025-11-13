@@ -48,6 +48,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Resources.St
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
 
+[D:/MH_Bank/src/MHBank.Mobile/Views/AccountDetailsPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.AccountDetailsPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\AccountDetailsPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\AccountDetailsPage.xaml
+
 [D:/MH_Bank/src/MHBank.Mobile/Views/HomePage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.HomePage.xaml
@@ -60,8 +66,26 @@ build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.LoginP
 build_metadata.AdditionalFiles.TargetPath = Views\LoginPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\LoginPage.xaml
 
+[D:/MH_Bank/src/MHBank.Mobile/Views/ProfilePage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.ProfilePage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ProfilePage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ProfilePage.xaml
+
 [D:/MH_Bank/src/MHBank.Mobile/Views/RegisterPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.RegisterPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\RegisterPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\RegisterPage.xaml
+
+[D:/MH_Bank/src/MHBank.Mobile/Views/TransactionsHistoryPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.TransactionsHistoryPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\TransactionsHistoryPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\TransactionsHistoryPage.xaml
+
+[D:/MH_Bank/src/MHBank.Mobile/Views/TransferPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.TransferPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\TransferPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\TransferPage.xaml

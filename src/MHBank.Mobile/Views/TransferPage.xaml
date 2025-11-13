@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.TransferPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource White}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Label Text="←"
+                       FontSize="24"
+                       TextColor="{StaticResource Black}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="تحويل الأموال"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Black}"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- From Account Section -->
+            <Label Text="من الحساب:"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,10,0,5" />
+
+            <Border x:Name="FromAccountBorder"
+                    BackgroundColor="{StaticResource LightGray}"
+                    StrokeThickness="0"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout x:Name="FromAccountLayout" Spacing="8">
+                    <Label x:Name="FromAccountTypeLabel"
+                           Text="حساب جاري"
+                           FontSize="16"
+                           TextColor="{StaticResource Black}" />
+                    <Label x:Name="FromAccountNumberLabel"
+                           Text="1234567890"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray}" />
+                    <Label x:Name="FromAccountBalanceLabel"
+                           Text="500,000 IQD"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- To Account Number -->
+            <Label Text="إلى رقم الحساب:"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,10,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="ToAccountEntry"
+                       Placeholder="أدخل رقم الحساب المستلم"
+                       Keyboard="Numeric"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Amount -->
+            <Label Text="المبلغ (IQD):"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,10,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Entry x:Name="AmountEntry"
+                       Placeholder="أدخل المبلغ"
+                       Keyboard="Numeric"
+                       PlaceholderColor="{StaticResource Gray}"
+                       TextColor="{StaticResource Black}"
+                       BackgroundColor="Transparent"
+                       Margin="10,0" />
+            </Border>
+
+            <!-- Available Balance Info -->
+            <HorizontalStackLayout Spacing="5" Margin="5,0,0,0">
+                <Label Text="الرصيد المتاح:"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray}" />
+                <Label x:Name="AvailableBalanceLabel"
+                       Text="500,000 IQD"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}" />
+            </HorizontalStackLayout>
+
+            <!-- Notes -->
+            <Label Text="ملاحظات (اختياري):"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray}"
+                   Margin="5,10,0,5" />
+            <Border Stroke="{StaticResource LightGray}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{StaticResource LightGray}">
+                <Editor x:Name="NotesEditor"
+                        Placeholder="أضف ملاحظة (اختياري)"
+                        HeightRequest="80"
+                        PlaceholderColor="{StaticResource Gray}"
+                        TextColor="{StaticResource Black}"
+                        BackgroundColor="Transparent"
+                        Margin="10,5" />
+            </Border>
+
+            <!-- Transfer Button -->
+            <Button x:Name="TransferButton"
+                    Text="تحويل الآن 💸"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnTransferClicked"
+                    Margin="0,20,0,0" />
+
+            <!-- Warning Message -->
+            <Border BackgroundColor="#FFF3CD"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 8"
+                    Margin="0,10,0,0">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="⚠️"
+                           FontSize="18"
+                           VerticalOptions="Start" />
+                    <Label Text="تأكد من رقم الحساب قبل التحويل. العمليات لا يمكن التراجع عنها."
+                           FontSize="12"
+                           TextColor="#856404"
+                           LineBreakMode="WordWrap"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

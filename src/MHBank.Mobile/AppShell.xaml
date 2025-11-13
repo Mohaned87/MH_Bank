@@ -18,5 +18,20 @@
     <ShellContent
         Route="home"
         ContentTemplate="{DataTemplate views:HomePage}" />
-
+    <!-- Transfer -->
+    <ShellContent
+       Route="transfer"
+       ContentTemplate="{DataTemplate views:TransferPage}" />
+    <!-- Transactions History -->
+    <ShellContent
+       Route="transactionshistory"
+       ContentTemplate="{DataTemplate views:TransactionsHistoryPage}" />
+    <!-- Account Details -->
+    <ShellContent
+       Route="accountdetails"
+       ContentTemplate="{DataTemplate views:AccountDetailsPage}" />
+    <!-- Profile -->
+    <ShellContent
+    Route="profile"
+    ContentTemplate="{DataTemplate views:ProfilePage}" />
 </Shell>

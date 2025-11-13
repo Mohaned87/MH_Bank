@@ -7,6 +7,7 @@ using MHBank.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace MHBank.API.Controllers;
 
@@ -384,59 +385,55 @@ public class AuthController : ControllerBase
     /// الحصول على معلومات المستخدم الحالي (محمي بـ JWT)
     /// </summary>
     [HttpGet("me")]
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    [Authorize]
     public async Task<IActionResult> GetCurrentUser()
     {
         try
         {
-            // الحصول على UserId من JWT Token
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            _logger.LogInformation("🔵 /me called. UserId: {UserId}", userId);
 
             if (string.IsNullOrEmpty(userId))
             {
-                return Unauthorized(new { Message = "Token غير صالح" });
+                _logger.LogWarning("❌ No userId in token");
+                return Unauthorized();
             }
 
-            // جلب المستخدم من قاعدة البيانات
-            //var user = await _context.Users.FindAsync(Guid.Parse(userId));
             var user = await _context.Users
-           .Where(u => u.Id == Guid.Parse(userId))
-           .Select(u => new
-           {
-               u.Id,
-               u.Email,
-               u.FirstName,
-               u.LastName,
-               FullName = u.FirstName + " " + u.LastName,
-               u.PhoneNumber,
-               u.CreatedAt
-           })
-           .FirstOrDefaultAsync();
+                .Where(u => u.Id == Guid.Parse(userId))
+                .FirstOrDefaultAsync();
 
             if (user == null)
             {
-                return NotFound(new { Message = "المستخدم غير موجود" });
+                _logger.LogWarning("❌ User not found: {UserId}", userId);
+                return NotFound(new { Success = false, Message = "المستخدم غير موجود" });
             }
 
+            _logger.LogInformation("✅ User found: {Email}", user.Email);
+
+            // المهم: يجب أن يكون الـ response بهذا الشكل
             return Ok(new
             {
-                Message = "✅ أنت مُصادق!",
-                User = new UserDto
+                Success = true,  // ← مهم!
+                Data = new      // ← مهم!
                 {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    FullName = user.FullName,
-                    PhoneNumber = user.PhoneNumber,
-                    CreatedAt = user.CreatedAt
+                    user.Id,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                    FullName = user.FirstName + " " + user.LastName,
+                    user.PhoneNumber,
+                    user.CreatedAt,
+                    user.TwoFactorEnabled,
+                    user.IsActive
                 }
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ خطأ في الحصول على المستخدم");
-            return StatusCode(500, new { Message = "حدث خطأ" });
+            _logger.LogError(ex, "❌ Error in /me");
+            return StatusCode(500, new { Success = false, Message = "خطأ" });
         }
     }
 }

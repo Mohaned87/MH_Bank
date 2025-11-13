@@ -189,21 +189,26 @@ public partial class HomePage : ContentPage
 
     private async void OnLogoutClicked(object sender, EventArgs e)
     {
-        try
+        var confirm = await DisplayAlert("تسجيل الخروج", "هل أنت متأكد؟", "نعم", "لا");
+        if (confirm)
         {
-            var confirm = await DisplayAlert("تسجيل الخروج", "هل أنت متأكد؟", "نعم", "لا");
-            if (confirm)
-            {
-                await _authService.LogoutAsync();
-
-                // تغيير MainPage بدلاً من Navigation
-                Application.Current.MainPage = new AppShell();
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("خطأ", ex.Message, "حسناً");
+            await _authService.LogoutAsync();
+            await Shell.Current.GoToAsync("//login");
         }
     }
 
+    private async void OnTransferTapped(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(TransferPage));
+    }
+
+    private async void OnViewAllTransactionsTapped(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(TransactionsHistoryPage));
+    }
+
+    private async void OnProfileTapped(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(ProfilePage));
+    }
 }

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.TransactionsHistoryPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5F5">
+
+    <Grid>
+        <!-- Loading -->
+        <Label x:Name="LoadingLabel"
+               Text="جاري التحميل..."
+               FontSize="16"
+               TextColor="Gray"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="true" />
+
+        <!-- Content -->
+        <VerticalStackLayout x:Name="ContentLayout" IsVisible="false" Spacing="0">
+
+            <!-- Header -->
+            <Grid BackgroundColor="White" 
+                  Padding="20,50,20,20"
+                  RowSpacing="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Back Button -->
+                <HorizontalStackLayout Grid.Row="0" Spacing="10">
+                    <Label Text="←"
+                           FontSize="24"
+                           TextColor="Black">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="سجل المعاملات"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <!-- Filter Buttons -->
+                <HorizontalStackLayout Grid.Row="1" 
+                                      Spacing="10"
+                                      HorizontalOptions="Start">
+                    <Border x:Name="AllFilterButton"
+                            BackgroundColor="#87CEEB"
+                            StrokeThickness="0"
+                            Padding="15,8"
+                            StrokeShape="RoundRectangle 8">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAllFilterTapped" />
+                        </Border.GestureRecognizers>
+                        <Label Text="الكل"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                    </Border>
+
+                    <Border x:Name="TransferFilterButton"
+                            BackgroundColor="#E8E8E8"
+                            StrokeThickness="0"
+                            Padding="15,8"
+                            StrokeShape="RoundRectangle 8">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTransferFilterTapped" />
+                        </Border.GestureRecognizers>
+                        <Label Text="تحويل"
+                               FontSize="14"
+                               TextColor="Gray" />
+                    </Border>
+
+                    <Border x:Name="DepositFilterButton"
+                            BackgroundColor="#E8E8E8"
+                            StrokeThickness="0"
+                            Padding="15,8"
+                            StrokeShape="RoundRectangle 8">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDepositFilterTapped" />
+                        </Border.GestureRecognizers>
+                        <Label Text="إيداع"
+                               FontSize="14"
+                               TextColor="Gray" />
+                    </Border>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <!-- Transactions List -->
+            <ScrollView>
+                <VerticalStackLayout x:Name="TransactionsLayout"
+                                    Padding="20"
+                                    Spacing="0" />
+            </ScrollView>
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

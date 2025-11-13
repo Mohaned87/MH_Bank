@@ -15,4 +15,6 @@ public class User
     public string FullName { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+    public bool TwoFactorEnabled { get; set; }
+    public bool IsActive { get; set; }
 }
