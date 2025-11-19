@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.CardsPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5F5">
+
+    <Grid>
+        <!-- Loading -->
+        <Label x:Name="LoadingLabel"
+               Text="جاري التحميل..."
+               FontSize="16"
+               TextColor="Gray"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="True" />
+
+        <!-- Content -->
+        <ScrollView x:Name="ContentLayout" IsVisible="False">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!-- Header -->
+                <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                    <Label Text="←"
+                           FontSize="24"
+                           TextColor="Black">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="بطاقاتي"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           VerticalOptions="Center"
+                           HorizontalOptions="StartAndExpand" />
+                    <Label Text="🔄"
+                           FontSize="24"
+                           TextColor="#4A90E2"
+                           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnRefreshTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+
+                <!-- Add Card Button -->
+                <Button Text="+ إصدار بطاقة جديدة"
+                        BackgroundColor="#87CEEB"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        Clicked="OnIssueCardTapped" />
+
+                <!-- Cards List -->
+                <VerticalStackLayout x:Name="CardsLayout" Spacing="15" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MHBank.Mobile.Views.HomePage"
+             Shell.NavBarIsVisible="False"
              BackgroundColor="#F5F5F5">
 
     <Grid>
@@ -41,6 +42,27 @@
                            VerticalOptions="Center" />
 
                     <HorizontalStackLayout Grid.Column="2" Spacing="15">
+                        <!-- زر + -->
+                        <Border BackgroundColor="#4A90E2"
+                                StrokeThickness="0"
+                                WidthRequest="35"
+                                HeightRequest="35"
+                                VerticalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="17.5" />
+                            </Border.StrokeShape>
+                            <Label Text="+"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAddButtonTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+
                         <Label Text="👤"
                                FontSize="24"
                                VerticalOptions="Center">
@@ -49,9 +71,37 @@
                             </Label.GestureRecognizers>
                         </Label>
 
-                        <Label Text="🔔"
-                               FontSize="24"
-                               VerticalOptions="Center" />
+                        <!-- Notification Bell with Badge -->
+                        <Grid WidthRequest="30" HeightRequest="30">
+                            <Label Text="🔔"
+                                   FontSize="24"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnNotificationsTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <!-- Notification Badge -->
+                            <Border x:Name="NotificationBadge"
+                                    BackgroundColor="#F44336"
+                                    WidthRequest="18"
+                                    HeightRequest="18"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Start"
+                                    Margin="0,-2,-2,0"
+                                    StrokeThickness="0"
+                                    IsVisible="False"
+                                    StrokeShape="RoundRectangle 9">
+                                <Label x:Name="NotificationCount"
+                                       Text="3"
+                                       FontSize="10"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                        </Grid>
                     </HorizontalStackLayout>
                 </Grid>
 
@@ -81,7 +131,7 @@
                                     Opacity="0.2" />
                         </Border.Shadow>
 
-                        <Grid RowDefinitions="Auto,*,Auto">
+                        <Grid RowDefinitions="Auto,*,Auto,Auto">
 
                             <HorizontalStackLayout Spacing="8">
                                 <Label Text="💰"
@@ -91,7 +141,15 @@
                                        FontSize="16"
                                        TextColor="Black"
                                        VerticalOptions="Center"
-                                       Opacity="0.9" />
+                                       Opacity="0.9"
+                                       HorizontalOptions="Start" />
+                                <Picker x:Name="AccountPicker"
+                                        Title="كل الحسابات"
+                                        FontSize="12"
+                                        TextColor="Black"
+                                        HorizontalOptions="End"
+                                        SelectedIndexChanged="OnAccountSelected"
+                                        WidthRequest="150" />
                             </HorizontalStackLayout>
 
                             <Label x:Name="TotalBalanceLabel"
@@ -104,13 +162,14 @@
 
                             <!-- Quick Actions -->
                             <Grid Grid.Row="2" 
-                                  ColumnDefinitions="*,*,*" 
-                                  ColumnSpacing="12">
+                                  ColumnDefinitions="*,*,*,*" 
+                                  ColumnSpacing="10">
 
+                                <!-- Transfer -->
                                 <Border Grid.Column="0"
                                         BackgroundColor="White"
                                         StrokeThickness="0"
-                                        Padding="12,10">
+                                        Padding="10,8">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="12" />
                                     </Border.StrokeShape>
@@ -119,54 +178,118 @@
                                     </Border.GestureRecognizers>
                                     <VerticalStackLayout Spacing="4">
                                         <Label Text="↗️"
-                                               FontSize="22"
+                                               FontSize="20"
                                                HorizontalOptions="Center" />
                                         <Label Text="حوّل"
-                                               FontSize="13"
+                                               FontSize="12"
                                                FontAttributes="Bold"
                                                TextColor="Black"
                                                HorizontalOptions="Center" />
                                     </VerticalStackLayout>
                                 </Border>
 
+                                <!-- Deposit -->
                                 <Border Grid.Column="1"
                                         BackgroundColor="White"
                                         StrokeThickness="0"
-                                        Padding="12,10">
+                                        Padding="10,8">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="12" />
                                     </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnDepositTapped" />
+                                    </Border.GestureRecognizers>
                                     <VerticalStackLayout Spacing="4">
                                         <Label Text="⬇️"
-                                               FontSize="22"
+                                               FontSize="20"
                                                HorizontalOptions="Center" />
                                         <Label Text="إيداع"
-                                               FontSize="13"
+                                               FontSize="12"
                                                FontAttributes="Bold"
                                                TextColor="Black"
                                                HorizontalOptions="Center" />
                                     </VerticalStackLayout>
                                 </Border>
 
+                                <!-- Bill Payment -->
                                 <Border Grid.Column="2"
                                         BackgroundColor="White"
                                         StrokeThickness="0"
-                                        Padding="12,10">
+                                        Padding="10,8">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="12" />
                                     </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBillPaymentTapped" />
+                                    </Border.GestureRecognizers>
                                     <VerticalStackLayout Spacing="4">
-                                        <Label Text="💳"
-                                               FontSize="22"
+                                        <Label Text="🧾"
+                                               FontSize="20"
                                                HorizontalOptions="Center" />
-                                        <Label Text="بطاقاتي"
-                                               FontSize="13"
+                                        <Label Text="فواتير"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="Black"
+                                               HorizontalOptions="Center" />
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <!-- KYC -->
+                                <Border Grid.Column="3"
+                                        BackgroundColor="White"
+                                        StrokeThickness="0"
+                                        Padding="10,8">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12" />
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnKYCTapped" />
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="📄"
+                                               FontSize="20"
+                                               HorizontalOptions="Center" />
+                                        <Label Text="توثيق"
+                                               FontSize="12"
                                                FontAttributes="Bold"
                                                TextColor="Black"
                                                HorizontalOptions="Center" />
                                     </VerticalStackLayout>
                                 </Border>
                             </Grid>
+
+                            <!-- Second Row - Cards Button -->
+                            <Border Grid.Row="3"
+                                    BackgroundColor="White"
+                                    StrokeThickness="0"
+                                    Padding="15"
+                                    Margin="0,10,0,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCardsTapped" />
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="💳"
+                                           FontSize="24"
+                                           VerticalOptions="Center" />
+                                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                                        <Label Text="بطاقاتي"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="Black" />
+                                        <Label Text="إدارة البطاقات المصرفية"
+                                               FontSize="12"
+                                               TextColor="Gray" />
+                                    </VerticalStackLayout>
+                                    <Label Text="←"
+                                           FontSize="20"
+                                           TextColor="Gray"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
                         </Grid>
                     </Border>
 
@@ -215,7 +338,9 @@
                     </Grid>
 
                     <!-- Transactions Container -->
-                    <VerticalStackLayout x:Name="TransactionsLayout" Margin="0,0,0,20" />
+                    <ScrollView MaximumHeightRequest="400" Margin="0,0,0,20">
+                        <VerticalStackLayout x:Name="TransactionsLayout" />
+                    </ScrollView>
 
                     <!-- Logout Button -->
                     <Button Text="تسجيل الخروج"

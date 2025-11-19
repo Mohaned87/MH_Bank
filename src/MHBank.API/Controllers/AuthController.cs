@@ -1,13 +1,12 @@
-﻿using MHBank.API.DTOs_;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using MHBank.Core.DTOs;
 using MHBank.Core.Entities;
 using MHBank.Core.Interfaces;
 using MHBank.Infrastructure.Data;
 using MHBank.Infrastructure.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace MHBank.API.Controllers;
 
@@ -36,123 +35,59 @@ public class AuthController : ControllerBase
     /// تسجيل مستخدم جديد
     /// </summary>
     [HttpPost("register")]
-    [AllowAnonymous]
-    public async Task<IActionResult> Register([FromBody] RegisterRequestDto dto)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         try
         {
-            _logger.LogInformation("🔵 Register attempt: {Email}", dto.Email);
+            // التحقق من عدم وجود المستخدم
+            var exists = await _context.Users.AnyAsync(u =>
+                u.Email == request.Email ||
+                u.PhoneNumber == request.PhoneNumber);
 
-            // التحقق من البيانات
-            if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
+            if (exists)
             {
-                return BadRequest(new { Success = false, Message = "البريد وكلمة المرور مطلوبان" });
+                return BadRequest(new { Message = "البريد الإلكتروني أو رقم الهاتف مسجل مسبقاً" });
             }
 
-            // التحقق من وجود المستخدم
-            var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == dto.Email || u.PhoneNumber == dto.PhoneNumber);
-
-            if (existingUser != null)
+            // التحقق من صحة رقم الهاتف (07xxxxxxxxx)
+            if (!request.PhoneNumber.StartsWith("07") ||
+                (request.PhoneNumber.Length != 11 && request.PhoneNumber.Length != 12))
             {
-                return BadRequest(new { Success = false, Message = "المستخدم موجود بالفعل" });
+                return BadRequest(new { Message = "رقم الهاتف يجب أن يبدأ بـ 07 ويحتوي على 11 أو 12 رقم" });
             }
 
             // إنشاء المستخدم
-            var userId = Guid.NewGuid();
             var user = new User
             {
-                Id = userId,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-                CreatedAt = DateTime.UtcNow,
+                Id = Guid.NewGuid(),
+                Email = request.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                DateOfBirth = request.DateOfBirth,
                 IsActive = true,
-                TwoFactorEnabled = false
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Users.Add(user);
-
-            // حفظ المستخدم أولاً
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("✅ User saved: {UserId}", userId);
-
-            // توليد Account Number و IBAN
-            var random = new Random();
-            var accountNumber = random.Next(1000000000, int.MaxValue).ToString();
-            var iban = $"IQ{random.Next(10, 99)}MHBK{accountNumber}"; // IBAN عراقي
-
-            // إنشاء الحساب البنكي
-            var account = new BankAccount
-            {
-                Id = Guid.NewGuid(),
-                UserId = userId,
-                AccountNumber = accountNumber,
-                IBAN = iban, // مهم جداً!
-                AccountType = AccountType.Checking,
-                Balance = 0,
-                Currency = "IQD",
-                IsActive = true,
-                OpenedAt = DateTime.UtcNow,
-                DailyTransferLimit = 10000000,
-                MonthlyTransferLimit = 50000000,
-                CurrentDailyTransferred = 0,
-                CurrentMonthlyTransferred = 0
-            };
-
-            _context.BankAccounts.Add(account);
-            await _context.SaveChangesAsync();
-
-            _logger.LogInformation("✅ Account saved: {AccountNumber}, IBAN: {IBAN}", accountNumber, iban);
-            _logger.LogInformation("✅ Registration complete: {Email}", dto.Email);
+            _logger.LogInformation("✅ تم تسجيل مستخدم جديد: {Phone}", user.PhoneNumber);
 
             return Ok(new
             {
                 Success = true,
-                Message = "تم إنشاء الحساب بنجاح",
-                User = new
-                {
-                    user.Id,
-                    user.Email,
-                    user.FirstName,
-                    user.LastName,
-                    user.PhoneNumber
-                }
-            });
-        }
-        catch (DbUpdateException dbEx)
-        {
-            _logger.LogError(dbEx, "❌ Database error");
-            _logger.LogError("❌ Inner Exception: {Inner}", dbEx.InnerException?.Message);
-
-            return StatusCode(500, new
-            {
-                Success = false,
-                Message = "خطأ في قاعدة البيانات",
-                Details = dbEx.InnerException?.Message ?? dbEx.Message
+                Message = "تم التسجيل بنجاح!",
+                UserId = user.Id
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ خطأ في تسجيل المستخدم");
-
-            return StatusCode(500, new
-            {
-                Success = false,
-                Message = "حدث خطأ أثناء التسجيل",
-                Details = ex.InnerException?.Message ?? ex.Message
-            });
+            _logger.LogError(ex, "❌ خطأ في التسجيل");
+            return StatusCode(500, new { Message = "حدث خطأ أثناء التسجيل" });
         }
     }
-    private string GenerateAccountNumber()
-    {
-        var random = new Random();
-        return random.Next(1000000000, int.MaxValue).ToString();
-    }
-
 
     /// <summary>
     /// تسجيل الدخول - يمكن استخدام رقم الهاتف أو البريد
@@ -172,6 +107,11 @@ public class AuthController : ControllerBase
             {
                 return Unauthorized(new { Message = "بيانات الدخول غير صحيحة" });
             }
+
+            _logger.LogInformation("👤 محاولة تسجيل دخول: {Username}", request.Username);
+            _logger.LogInformation("🔐 2FA مفعّل: {Enabled}", user.TwoFactorEnabled);
+            _logger.LogInformation("📝 OTP المُدخل: {InputOtp}", request.Otp ?? "NULL");
+            _logger.LogInformation("📝 OTP المحفوظ: {SavedOtp}", user.CurrentOtp ?? "NULL");
 
             // التحقق من كلمة المرور
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
@@ -385,55 +325,83 @@ public class AuthController : ControllerBase
     /// الحصول على معلومات المستخدم الحالي (محمي بـ JWT)
     /// </summary>
     [HttpGet("me")]
-    [Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> GetCurrentUser()
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            _logger.LogInformation("🔵 /me called. UserId: {UserId}", userId);
+            // الحصول على UserId من JWT Token
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
             {
-                _logger.LogWarning("❌ No userId in token");
-                return Unauthorized();
+                return Unauthorized(new { Message = "Token غير صالح" });
             }
 
-            var user = await _context.Users
-                .Where(u => u.Id == Guid.Parse(userId))
-                .FirstOrDefaultAsync();
+            // جلب المستخدم من قاعدة البيانات
+            var user = await _context.Users.FindAsync(Guid.Parse(userId));
 
             if (user == null)
             {
-                _logger.LogWarning("❌ User not found: {UserId}", userId);
-                return NotFound(new { Success = false, Message = "المستخدم غير موجود" });
+                return NotFound(new { Message = "المستخدم غير موجود" });
             }
 
-            _logger.LogInformation("✅ User found: {Email}", user.Email);
-
-            // المهم: يجب أن يكون الـ response بهذا الشكل
             return Ok(new
             {
-                Success = true,  // ← مهم!
-                Data = new      // ← مهم!
+                Success = true,
+                Data = new UserDto
                 {
-                    user.Id,
-                    user.Email,
-                    user.FirstName,
-                    user.LastName,
-                    FullName = user.FirstName + " " + user.LastName,
-                    user.PhoneNumber,
-                    user.CreatedAt,
-                    user.TwoFactorEnabled,
-                    user.IsActive
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    FullName = user.FullName,
+                    PhoneNumber = user.PhoneNumber,
+                    CreatedAt = user.CreatedAt
                 }
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ Error in /me");
-            return StatusCode(500, new { Success = false, Message = "خطأ" });
+            _logger.LogError(ex, "❌ خطأ في الحصول على المستخدم");
+            return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// تغيير كلمة المرور
+    /// </summary>
+    [HttpPost("change-password")]
+    [Authorize]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+    {
+        try
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _context.Users.FindAsync(Guid.Parse(userId));
+            if (user == null)
+                return NotFound(new { Success = false, Message = "المستخدم غير موجود" });
+
+            // التحقق من كلمة المرور الحالية
+            if (!BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.PasswordHash))
+                return BadRequest(new { Success = false, Message = "كلمة المرور الحالية غير صحيحة" });
+
+            // تحديث كلمة المرور
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ تم تغيير كلمة المرور للمستخدم: {UserId}", userId);
+
+            return Ok(new { Success = true, Message = "تم تغيير كلمة المرور بنجاح" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في تغيير كلمة المرور");
+            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
         }
     }
 }
@@ -441,7 +409,14 @@ public class AuthController : ControllerBase
 // ═══════════════════════════════════════════════
 // Request/Response Models
 // ═══════════════════════════════════════════════
+
 public record RefreshTokenRequest
 {
     public string RefreshToken { get; init; } = string.Empty;
+}
+
+public record ChangePasswordRequest
+{
+    public string CurrentPassword { get; init; } = string.Empty;
+    public string NewPassword { get; init; } = string.Empty;
 }

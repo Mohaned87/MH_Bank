@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.KYCPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Label Text="←"
+                       FontSize="24"
+                       TextColor="Black">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="توثيق الهوية (KYC)"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- Status Card -->
+            <Border BackgroundColor="White"
+                    StrokeThickness="0"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="15">
+                    <HorizontalStackLayout Spacing="10">
+                        <Label x:Name="StatusIcon"
+                               Text="⏳"
+                               FontSize="32" />
+                        <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Label Text="حالة التوثيق"
+                                   FontSize="14"
+                                   TextColor="Gray" />
+                            <Label x:Name="StatusLabel"
+                                   Text="غير موثق"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#FF9800" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Upload Documents -->
+            <Border BackgroundColor="White"
+                    StrokeThickness="0"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="📄 المستندات المطلوبة"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+
+                    <!-- ID Card Front -->
+                    <Border BackgroundColor="#F5F5F5"
+                            StrokeThickness="1"
+                            Stroke="LightGray"
+                            Padding="15"
+                            StrokeShape="RoundRectangle 12">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnUploadIDFrontTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="🪪"
+                                   FontSize="24"
+                                   VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1"
+                                                Spacing="4"
+                                                Margin="15,0,0,0">
+                                <Label Text="البطاقة الوطنية (الوجه الأمامي)"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="Black" />
+                                <Label x:Name="IDFrontStatusLabel"
+                                       Text="لم يتم الرفع"
+                                       FontSize="12"
+                                       TextColor="Gray" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2"
+                                   Text="📤"
+                                   FontSize="20"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- ID Card Back -->
+                    <Border BackgroundColor="#F5F5F5"
+                            StrokeThickness="1"
+                            Stroke="LightGray"
+                            Padding="15"
+                            StrokeShape="RoundRectangle 12">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnUploadIDBackTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="🪪"
+                                   FontSize="24"
+                                   VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1"
+                                                Spacing="4"
+                                                Margin="15,0,0,0">
+                                <Label Text="البطاقة الوطنية (الوجه الخلفي)"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="Black" />
+                                <Label x:Name="IDBackStatusLabel"
+                                       Text="لم يتم الرفع"
+                                       FontSize="12"
+                                       TextColor="Gray" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2"
+                                   Text="📤"
+                                   FontSize="20"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Selfie -->
+                    <Border BackgroundColor="#F5F5F5"
+                            StrokeThickness="1"
+                            Stroke="LightGray"
+                            Padding="15"
+                            StrokeShape="RoundRectangle 12">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnUploadSelfieTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="🤳"
+                                   FontSize="24"
+                                   VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1"
+                                                Spacing="4"
+                                                Margin="15,0,0,0">
+                                <Label Text="صورة شخصية (سيلفي)"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="Black" />
+                                <Label x:Name="SelfieStatusLabel"
+                                       Text="لم يتم الرفع"
+                                       FontSize="12"
+                                       TextColor="Gray" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2"
+                                   Text="📤"
+                                   FontSize="20"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Submit Button -->
+            <Button x:Name="SubmitButton"
+                    Text="إرسال للمراجعة ✅"
+                    Style="{StaticResource PrimaryButton}"
+                    IsEnabled="False"
+                    Clicked="OnSubmitClicked"
+                    Margin="0,10,0,0" />
+
+            <!-- Info -->
+            <Border BackgroundColor="#FFF3CD"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="ℹ️"
+                           FontSize="20"
+                           VerticalOptions="Start" />
+                    <Label Text="يرجى رفع صور واضحة للمستندات. سيتم مراجعة طلبك خلال 24-48 ساعة."
+                           FontSize="12"
+                           TextColor="#856404"
+                           LineBreakMode="WordWrap" />
+                </HorizontalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

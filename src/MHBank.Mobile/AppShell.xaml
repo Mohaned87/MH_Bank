@@ -34,4 +34,28 @@
     <ShellContent
     Route="profile"
     ContentTemplate="{DataTemplate views:ProfilePage}" />
+    <!-- BillPayment -->
+    <ShellContent
+       Route="accountdetails"
+       ContentTemplate="{DataTemplate views:BillPaymentPage}" />
+    <!-- KYC -->
+    <ShellContent
+    Route="profile"
+    ContentTemplate="{DataTemplate views:KYCPage}" />
+    <!-- Change Password -->
+    <ShellContent
+    Route="profile"
+    ContentTemplate="{DataTemplate views:ChangePasswordPage}" />
+    <!-- Cards -->
+    <ShellContent
+        Route="profile"
+        ContentTemplate="{DataTemplate views:CardsPage}" />
+    <!-- Issue Card -->
+    <ShellContent
+        Route="profile"
+        ContentTemplate="{DataTemplate views:IssueCardPage}" />
+    <!-- Settings -->
+    <ShellContent
+         Route="profile"
+         ContentTemplate="{DataTemplate views:SettingsPage}" />
 </Shell>

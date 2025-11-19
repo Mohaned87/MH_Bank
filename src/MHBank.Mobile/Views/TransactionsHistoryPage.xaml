@@ -16,10 +16,15 @@
                IsVisible="true" />
 
         <!-- Content -->
-        <VerticalStackLayout x:Name="ContentLayout" IsVisible="false" Spacing="0">
+        <Grid x:Name="ContentLayout" IsVisible="false">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
             <!-- Header -->
-            <Grid BackgroundColor="White" 
+            <Grid Grid.Row="0"
+                  BackgroundColor="White" 
                   Padding="20,50,20,20"
                   RowSpacing="15">
                 <Grid.RowDefinitions>
@@ -90,13 +95,13 @@
             </Grid>
 
             <!-- Transactions List -->
-            <ScrollView>
+            <ScrollView Grid.Row="1">
                 <VerticalStackLayout x:Name="TransactionsLayout"
                                     Padding="20"
                                     Spacing="0" />
             </ScrollView>
 
-        </VerticalStackLayout>
+        </Grid>
     </Grid>
 
 </ContentPage>

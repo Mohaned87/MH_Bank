@@ -6,13 +6,15 @@ namespace MHBank.Mobile.Views;
 public partial class TransferPage : ContentPage
 {
     private readonly IApiService _apiService;
+    private readonly INotificationService _notificationService;
     private BankAccount? _selectedAccount;
     private List<BankAccount> _accounts = new();
 
-    public TransferPage(IApiService apiService)
+    public TransferPage(IApiService apiService, INotificationService notificationService)
     {
         InitializeComponent();
         _apiService = apiService;
+        _notificationService = notificationService;
     }
 
     protected override async void OnAppearing()
@@ -51,9 +53,37 @@ public partial class TransferPage : ContentPage
         if (_selectedAccount != null)
         {
             FromAccountTypeLabel.Text = _selectedAccount.AccountType == "Checking" ? "حساب جاري" : "حساب توفير";
+            FromAccountTypeLabel.TextColor = Colors.Black;
             FromAccountNumberLabel.Text = _selectedAccount.AccountNumber;
+            FromAccountNumberLabel.IsVisible = true;
             FromAccountBalanceLabel.Text = $"{_selectedAccount.Balance:N0} IQD";
+            FromAccountBalanceLabel.IsVisible = true;
             AvailableBalanceLabel.Text = $"{_selectedAccount.Balance:N0} IQD";
+        }
+    }
+
+    private async void OnSelectFromAccountTapped(object sender, EventArgs e)
+    {
+        if (_accounts.Count <= 1)
+        {
+            await DisplayAlert("معلومة", "لديك حساب واحد فقط", "حسناً");
+            return;
+        }
+
+        var accountNames = _accounts.Select(a =>
+            $"{(a.AccountType == "Checking" ? "جاري" : "توفير")} - {a.AccountNumber} ({a.Balance:N0} IQD)"
+        ).ToArray();
+
+        var action = await DisplayActionSheet("اختر الحساب", "إلغاء", null, accountNames);
+
+        if (action != null && action != "إلغاء")
+        {
+            var selectedIndex = Array.IndexOf(accountNames, action);
+            if (selectedIndex >= 0)
+            {
+                _selectedAccount = _accounts[selectedIndex];
+                UpdateSelectedAccount();
+            }
         }
     }
 
@@ -128,6 +158,13 @@ public partial class TransferPage : ContentPage
 
             if (response?.Success == true)
             {
+                // إضافة إشعار
+                await _notificationService.AddNotificationAsync(
+                    "تحويل ناجح ✅",
+                    $"تم تحويل {amount:N0} IQD إلى الحساب {ToAccountEntry.Text}",
+                    "Transfer"
+                );
+
                 await DisplayAlert("نجح", $"تم التحويل بنجاح!\nرقم العملية: {response.TransactionId}", "حسناً");
 
                 // العودة للصفحة الرئيسية

@@ -11,5 +11,6 @@ public interface IApiService
     Task<TransactionsResponse?> GetAllTransactionsAsync();
     Task<User?> GetCurrentUserAsync();
     Task<TransferResponse?> TransferAsync(TransferRequest request);
+    Task<TransferResponse?> PayBillAsync(BillPaymentRequest request);
     Task<string?> GetStoredTokenAsync();
 }

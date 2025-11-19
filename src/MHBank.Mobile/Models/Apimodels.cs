@@ -24,6 +24,14 @@ public class TransferRequest
     public string Description { get; set; } = string.Empty;
 }
 
+public class BillPaymentRequest
+{
+    public Guid AccountId { get; set; }
+    public string BillType { get; set; } = string.Empty;
+    public string SubscriberNumber { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+}
+
 public class LoginResponse
 {
     public bool Success { get; set; }
@@ -47,6 +55,8 @@ public class TransferResponse
     public bool Success { get; set; }
     public string? Message { get; set; }
     public Guid? TransactionId { get; set; }
+    public string? ReferenceNumber { get; set; }
+    public decimal NewBalance { get; set; }
 }
 
 public class ApiResponse<T>

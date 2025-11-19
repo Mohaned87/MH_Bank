@@ -35,28 +35,43 @@
 
                 <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
                     <Border BackgroundColor="White"
-                            StrokeThickness="0"
+                            StrokeThickness="3"
+                            Stroke="#87CEEB"
                             WidthRequest="80"
                             HeightRequest="80"
                             StrokeShape="RoundRectangle 40">
-                        <Label Text="👤"
-                               FontSize="40"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnProfilePictureTapped" />
+                        </Border.GestureRecognizers>
+                        <Grid>
+                            <Label x:Name="ProfilePlaceholder"
+                                   Text="📷"
+                                   FontSize="40"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                            <Image x:Name="ProfileImage"
+                                   Aspect="AspectFill"
+                                   IsVisible="False" />
+                        </Grid>
                     </Border>
 
                     <Label x:Name="FullNameLabel"
-                           Text="fullName"
+                           Text=""
                            FontSize="22"
                            FontAttributes="Bold"
                            TextColor="Black"
                            HorizontalOptions="Center" />
 
                     <Label x:Name="EmailLabel"
-                           Text="Email"
+                           Text=""
                            FontSize="14"
                            TextColor="Black"
                            Opacity="0.8"
+                           HorizontalOptions="Center" />
+
+                    <Label Text="اضغط على الصورة لتغييرها"
+                           FontSize="11"
+                           TextColor="#87CEEB"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
             </Border>
@@ -82,7 +97,7 @@
                                    TextColor="Gray"
                                    FontSize="12" />
                             <Label x:Name="EmailValueLabel"
-                                   Text="Email"
+                                   Text=""
                                    TextColor="Black"
                                    FontSize="14" />
                         </VerticalStackLayout>
@@ -100,7 +115,7 @@
                                    TextColor="Gray"
                                    FontSize="12" />
                             <Label x:Name="PhoneLabel"
-                                   Text="PhoneNumber"
+                                   Text=""
                                    TextColor="Black"
                                    FontSize="14" />
                         </VerticalStackLayout>
@@ -118,7 +133,7 @@
                                    TextColor="Gray"
                                    FontSize="12" />
                             <Label x:Name="JoinDateLabel"
-                                   Text="CreatedAt"
+                                   Text=""
                                    TextColor="Black"
                                    FontSize="14" />
                         </VerticalStackLayout>
@@ -191,6 +206,25 @@
                            FontSize="18"
                            FontAttributes="Bold"
                            TextColor="Black" />
+
+                    <!-- Server Settings -->
+                    <Border BackgroundColor="#F5F5F5"
+                            StrokeThickness="0"
+                            Padding="15"
+                            StrokeShape="RoundRectangle 12">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSettingsTapped" />
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="🔌"
+                                   FontSize="20"
+                                   VerticalOptions="Center" />
+                            <Label Text="إعدادات الاتصال"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
 
                     <Border BackgroundColor="#F5F5F5"
                             StrokeThickness="0"

@@ -41,9 +41,11 @@ public class CardsController : ControllerBase
             var result = cards.Select(c => new
             {
                 c.Id,
-                CardNumber = MaskCardNumber(c.CardNumber),
+                CardNumber = c.CardNumber,
+                MaskedCardNumber = MaskCardNumber(c.CardNumber),
                 c.CardHolderName,
-                ExpiryDate = $"{c.ExpiryMonth}/{c.ExpiryYear}",
+                c.ExpiryMonth,
+                c.ExpiryYear,
                 CardType = c.CardType.ToString(),
                 Brand = c.Brand.ToString(),
                 c.IsActive,
@@ -74,9 +76,15 @@ public class CardsController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("🔵 IssueCard request: AccountId={AccountId}, Brand={Brand}",
+                request.AccountId, request.Brand);
+
             var userId = GetCurrentUserId();
             if (userId == null)
-                return Unauthorized();
+            {
+                _logger.LogWarning("⚠️ Unauthorized - no userId");
+                return Unauthorized(new { Success = false, Message = "غير مصرح" });
+            }
 
             // التحقق من الحساب
             var account = await _context.BankAccounts
@@ -84,19 +92,52 @@ public class CardsController : ControllerBase
                 .FirstOrDefaultAsync(a => a.Id == request.AccountId && a.UserId == userId.Value);
 
             if (account == null)
-                return NotFound(new { Message = "الحساب غير موجود" });
+            {
+                _logger.LogWarning("⚠️ Account not found: {AccountId}", request.AccountId);
+                return NotFound(new { Success = false, Message = "الحساب غير موجود" });
+            }
 
             if (!account.IsActive)
-                return BadRequest(new { Message = "الحساب غير نشط" });
+            {
+                _logger.LogWarning("⚠️ Account not active: {AccountId}", request.AccountId);
+                return BadRequest(new { Success = false, Message = "الحساب غير نشط" });
+            }
 
             // التحقق من نوع البطاقة
-            if (!Enum.TryParse<CardType>(request.CardType, out var cardType))
+            CardType cardType = CardType.Debit;
+            if (!string.IsNullOrEmpty(request.CardType))
             {
-                return BadRequest(new { Message = "نوع البطاقة غير صحيح. استخدم: Debit أو Credit" });
+                if (!Enum.TryParse<CardType>(request.CardType, out cardType))
+                {
+                    cardType = CardType.Debit;
+                }
+            }
+
+            // التحقق من Brand
+            if (!Enum.IsDefined(typeof(CardBrand), request.Brand))
+            {
+                _logger.LogWarning("⚠️ Invalid brand: {Brand}", request.Brand);
+                return BadRequest(new { Success = false, Message = "نوع البطاقة غير صحيح. استخدم: 1 للـ Visa أو 2 للـ Mastercard" });
+            }
+
+            var cardBrand = (CardBrand)request.Brand;
+
+            // التحقق من عدم وجود بطاقة من نفس النوع
+            var existingCard = await _context.Cards
+                .FirstOrDefaultAsync(c => c.AccountId == request.AccountId && c.Brand == cardBrand);
+
+            if (existingCard != null)
+            {
+                _logger.LogWarning("⚠️ Card already exists: {Brand} for {AccountId}", cardBrand, request.AccountId);
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = $"يوجد بطاقة {cardBrand} بالفعل لهذا الحساب"
+                });
             }
 
             // إنشاء رقم بطاقة
-            var cardNumber = GenerateCardNumber();
+            var cardNumber = GenerateCardNumber(cardBrand);
             var cvv = GenerateCVV();
             var pin = GeneratePIN();
 
@@ -110,7 +151,7 @@ public class CardsController : ControllerBase
                 ExpiryYear = DateTime.UtcNow.AddYears(3).Year.ToString().Substring(2),
                 CVV = cvv,
                 CardType = cardType,
-                Brand = CardBrand.Visa,
+                Brand = cardBrand, // استخدام Brand من Request
                 PinHash = BCrypt.Net.BCrypt.HashPassword(pin),
                 IsActive = true,
                 IsBlocked = false,
@@ -134,13 +175,14 @@ public class CardsController : ControllerBase
                 Message = "تم إصدار البطاقة بنجاح",
                 Card = new
                 {
-                    card.Id,
-                    CardNumber = MaskCardNumber(cardNumber),
-                    FullCardNumber = cardNumber, // في الواقع، لا نرسل الرقم الكامل!
+                    Id = card.Id.ToString(),
+                    CardNumber = cardNumber,
+                    MaskedCardNumber = MaskCardNumber(cardNumber),
                     card.CardHolderName,
-                    ExpiryDate = $"{card.ExpiryMonth}/{card.ExpiryYear}",
-                    CVV = cvv, // في الواقع، لا نرسل CVV!
-                    PIN = pin, // في الواقع، لا نرسل PIN!
+                    card.ExpiryMonth,
+                    card.ExpiryYear,
+                    CVV = cvv,
+                    DefaultPIN = pin,
                     CardType = card.CardType.ToString(),
                     Brand = card.Brand.ToString(),
                     card.DailyLimit,
@@ -152,14 +194,14 @@ public class CardsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ خطأ في إصدار البطاقة");
-            return StatusCode(500, new { Message = "حدث خطأ" });
+            return StatusCode(500, new { Success = false, Message = $"حدث خطأ: {ex.Message}" });
         }
     }
 
     /// <summary>
     /// تفعيل/تعطيل البطاقة
     /// </summary>
-    [HttpPatch("{id}/toggle")]
+    [HttpPost("{id}/toggle")]
     public async Task<IActionResult> ToggleCard(Guid id)
     {
         try
@@ -193,6 +235,43 @@ public class CardsController : ControllerBase
         {
             _logger.LogError(ex, "❌ خطأ في تفعيل/تعطيل البطاقة");
             return StatusCode(500, new { Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// حذف بطاقة
+    /// </summary>
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCard(Guid id)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized(new { Success = false, Message = "غير مصرح" });
+
+            var card = await _context.Cards
+                .Include(c => c.Account)
+                .FirstOrDefaultAsync(c => c.Id == id && c.Account.UserId == userId.Value);
+
+            if (card == null)
+                return NotFound(new { Success = false, Message = "البطاقة غير موجودة" });
+
+            _context.Cards.Remove(card);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ تم حذف البطاقة: {CardNumber}", MaskCardNumber(card.CardNumber));
+
+            return Ok(new
+            {
+                Success = true,
+                Message = "تم حذف البطاقة بنجاح"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في حذف البطاقة");
+            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
         }
     }
 
@@ -291,6 +370,117 @@ public class CardsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// إصدار بطاقة لأول مرة مع إنشاء حساب جديد
+    /// </summary>
+    [HttpPost("issue-with-new-account")]
+    public async Task<IActionResult> IssueCardWithNewAccount([FromBody] IssueCardWithNewAccountRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("🔵 IssueCardWithNewAccount: Brand={Brand}", request.Brand);
+
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized(new { Success = false, Message = "غير مصرح" });
+
+            var user = await _context.Users.FindAsync(userId.Value);
+            if (user == null)
+                return NotFound(new { Success = false, Message = "المستخدم غير موجود" });
+
+            if (!Enum.IsDefined(typeof(CardBrand), request.Brand))
+                return BadRequest(new { Success = false, Message = "نوع البطاقة غير صحيح" });
+
+            var cardBrand = (CardBrand)request.Brand;
+
+            // إنشاء حساب جديد
+            var random = new Random();
+            var accountNumber = "100" + random.Next(1000000000, int.MaxValue).ToString();
+            var iban = $"IQ98MHBN{accountNumber}";
+
+            var newAccount = new BankAccount
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId.Value,
+                AccountNumber = accountNumber,
+                IBAN = iban,
+                AccountType = AccountType.Checking,
+                Balance = 0,
+                Currency = "IQD",
+                IsActive = true,
+                OpenedAt = DateTime.UtcNow
+            };
+
+            _context.BankAccounts.Add(newAccount);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ Created account: {AccountNumber}", accountNumber);
+
+            // إنشاء البطاقة
+            var cardNumber = GenerateCardNumber(cardBrand);
+            var cvv = GenerateCVV();
+            var pin = GeneratePIN();
+
+            var card = new Card
+            {
+                Id = Guid.NewGuid(),
+                AccountId = newAccount.Id,
+                CardNumber = cardNumber,
+                CardHolderName = $"{user.FirstName} {user.LastName}",
+                ExpiryMonth = DateTime.UtcNow.AddYears(5).Month.ToString("D2"),
+                ExpiryYear = DateTime.UtcNow.AddYears(5).Year.ToString(),
+                CVV = cvv,
+                PinHash = BCrypt.Net.BCrypt.HashPassword(pin),
+                Brand = cardBrand,
+                CardType = CardType.Debit,
+                IsActive = false, // غير مفعلة
+                IsBlocked = false,
+                DailyLimit = 5000000,
+                MonthlyLimit = 50000000,
+                IssuedAt = DateTime.UtcNow
+            };
+
+            _context.Cards.Add(card);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ Issued inactive card: {CardNumber}", MaskCardNumber(cardNumber));
+
+            return Ok(new
+            {
+                Success = true,
+                Message = "تم إنشاء الحساب وإصدار البطاقة بنجاح",
+                Account = new
+                {
+                    Id = newAccount.Id.ToString(),
+                    newAccount.AccountNumber,
+                    newAccount.IBAN,
+                    AccountType = newAccount.AccountType.ToString(),
+                    newAccount.Balance,
+                    newAccount.Currency
+                },
+                Card = new
+                {
+                    Id = card.Id.ToString(),
+                    CardNumber = cardNumber,
+                    MaskedCardNumber = MaskCardNumber(cardNumber),
+                    card.CardHolderName,
+                    card.ExpiryMonth,
+                    card.ExpiryYear,
+                    CVV = cvv,
+                    DefaultPIN = pin,
+                    Brand = card.Brand.ToString(),
+                    IsActive = false,
+                    Message = "⚠️ البطاقة غير مفعلة. يجب تفعيلها بكلمة سر التطبيق."
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في إصدار البطاقة");
+            return StatusCode(500, new { Success = false, Message = $"حدث خطأ: {ex.Message}" });
+        }
+    }
+
     // ═══════════════════════════════════════════════
     // Helper Methods
     // ═══════════════════════════════════════════════
@@ -301,11 +491,12 @@ public class CardsController : ControllerBase
         return string.IsNullOrEmpty(userIdClaim) ? null : Guid.Parse(userIdClaim);
     }
 
-    private string GenerateCardNumber()
+    private string GenerateCardNumber(CardBrand brand)
     {
-        // Visa starts with 4
         var random = new Random();
-        return $"4{random.Next(100, 999)}{random.Next(1000, 9999)}{random.Next(1000, 9999)}{random.Next(1000, 9999)}";
+        var prefix = brand == CardBrand.Visa ? "4" : "5"; // Visa = 4, Mastercard = 5
+
+        return $"{prefix}{random.Next(100, 999)}{random.Next(1000, 9999)}{random.Next(1000, 9999)}{random.Next(1000, 9999)}";
     }
 
     private string GenerateCVV()
@@ -334,7 +525,13 @@ public class CardsController : ControllerBase
 public record IssueCardRequest
 {
     public Guid AccountId { get; init; }
-    public string CardType { get; init; } = string.Empty; // Debit or Credit
+    public string CardType { get; init; } = "Debit"; // Debit or Credit
+    public int Brand { get; init; } = 1; // 1 = Visa, 2 = Mastercard
+}
+
+public record IssueCardWithNewAccountRequest
+{
+    public int Brand { get; init; } = 1; // 1 = Visa, 2 = Mastercard
 }
 
 public record BlockCardRequest

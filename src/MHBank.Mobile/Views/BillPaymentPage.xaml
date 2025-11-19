@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.BillPaymentPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource White}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Label Text="←"
+                       FontSize="24"
+                       TextColor="Black">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="دفع الفواتير"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- نوع الفاتورة -->
+            <Label Text="نوع الفاتورة:"
+                   FontSize="14"
+                   TextColor="Gray"
+                   Margin="5,10,0,5" />
+
+            <!-- Bill Types -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+
+                <!-- كهرباء -->
+                <Border Grid.Row="0" Grid.Column="0"
+                        x:Name="ElectricityBorder"
+                        BackgroundColor="#E8F5E9"
+                        StrokeThickness="2"
+                        Stroke="#4CAF50"
+                        Padding="15"
+                        StrokeShape="RoundRectangle 12">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnElectricityTapped" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="⚡"
+                               FontSize="32"
+                               HorizontalOptions="Center" />
+                        <Label Text="كهرباء"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- ماء -->
+                <Border Grid.Row="0" Grid.Column="1"
+                        BackgroundColor="LightGray"
+                        StrokeThickness="0"
+                        Padding="15"
+                        StrokeShape="RoundRectangle 12">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnWaterTapped" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="💧"
+                               FontSize="32"
+                               HorizontalOptions="Center" />
+                        <Label Text="ماء"
+                               FontSize="16"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- إنترنت -->
+                <Border Grid.Row="1" Grid.Column="0"
+                        BackgroundColor="LightGray"
+                        StrokeThickness="0"
+                        Padding="15"
+                        StrokeShape="RoundRectangle 12">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnInternetTapped" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="📡"
+                               FontSize="32"
+                               HorizontalOptions="Center" />
+                        <Label Text="إنترنت"
+                               FontSize="16"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- هاتف -->
+                <Border Grid.Row="1" Grid.Column="1"
+                        BackgroundColor="LightGray"
+                        StrokeThickness="0"
+                        Padding="15"
+                        StrokeShape="RoundRectangle 12">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="📞"
+                               FontSize="32"
+                               HorizontalOptions="Center" />
+                        <Label Text="هاتف"
+                               FontSize="16"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- أخرى -->
+                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                        BackgroundColor="LightGray"
+                        StrokeThickness="0"
+                        Padding="15"
+                        StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="📋"
+                               FontSize="24"
+                               VerticalOptions="Center" />
+                        <Label Text="فواتير أخرى"
+                               FontSize="16"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- Bill Details (Hidden by default) -->
+            <VerticalStackLayout x:Name="BillDetailsLayout" IsVisible="False" Spacing="15">
+
+                <Label Text="رقم المشترك:"
+                       FontSize="14"
+                       TextColor="Gray"
+                       Margin="5,0,0,5" />
+                <Border Stroke="LightGray"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        BackgroundColor="LightGray">
+                    <Entry x:Name="SubscriberNumberEntry"
+                           Placeholder="أدخل رقم المشترك"
+                           Keyboard="Numeric"
+                           PlaceholderColor="Gray"
+                           TextColor="Black"
+                           BackgroundColor="Transparent"
+                           Margin="10,0" />
+                </Border>
+
+                <Label Text="المبلغ (IQD):"
+                       FontSize="14"
+                       TextColor="Gray"
+                       Margin="5,10,0,5" />
+                <Border Stroke="LightGray"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        BackgroundColor="LightGray">
+                    <Entry x:Name="AmountEntry"
+                           Placeholder="أدخل المبلغ"
+                           Keyboard="Numeric"
+                           PlaceholderColor="Gray"
+                           TextColor="Black"
+                           BackgroundColor="Transparent"
+                           Margin="10,0" />
+                </Border>
+
+                <Button x:Name="PayButton"
+                        Text="دفع الفاتورة 💳"
+                        Style="{StaticResource PrimaryButton}"
+                        Clicked="OnPayClicked"
+                        Margin="0,20,0,0" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

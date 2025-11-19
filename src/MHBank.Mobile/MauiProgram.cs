@@ -21,18 +21,26 @@ public static class MauiProgram
             });
 
         // Services
-        builder.Services.AddSingleton<IStorageService, StorageService>();
         builder.Services.AddSingleton<IApiService, ApiService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
+        builder.Services.AddSingleton<IStorageService, StorageService>();
+        builder.Services.AddSingleton<INotificationService, NotificationService>();
 
-        // Views - مهم جداً!
+        // Views
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<RegisterPage>();
         builder.Services.AddTransient<HomePage>();
-        builder.Services.AddTransient<TransferPage>(); 
+        builder.Services.AddTransient<TransferPage>();
         builder.Services.AddTransient<TransactionsHistoryPage>();
         builder.Services.AddTransient<AccountDetailsPage>();
         builder.Services.AddTransient<ProfilePage>();
+        builder.Services.AddTransient<BillPaymentPage>();
+        builder.Services.AddTransient<KYCPage>();
+        builder.Services.AddTransient<ChangePasswordPage>();
+        builder.Services.AddTransient<CardsPage>();
+        builder.Services.AddTransient<IssueCardPage>();
+        builder.Services.AddTransient<SettingsPage>();
+
 
 
 #if DEBUG

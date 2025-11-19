@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.IssueCardPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Label Text="←"
+                       FontSize="24"
+                       TextColor="Black">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="إصدار بطاقة جديدة"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- Select Account -->
+            <Label Text="اختر الحساب:"
+                   FontSize="14"
+                   TextColor="Gray"
+                   Margin="5,10,0,5" />
+
+            <Border BackgroundColor="White"
+                    StrokeThickness="1"
+                    Stroke="LightGray"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 12">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSelectAccountTapped" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="10">
+                    <Label x:Name="SelectedAccountLabel"
+                           Text="اضغط لاختيار الحساب"
+                           FontSize="16"
+                           TextColor="Gray"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center" />
+                    <Label Text="▼"
+                           FontSize="16"
+                           TextColor="Gray"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Select Card Brand -->
+            <Label Text="نوع البطاقة:"
+                   FontSize="14"
+                   TextColor="Gray"
+                   Margin="5,10,0,5" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <!-- Visa -->
+                <Border x:Name="VisaBorder"
+                        Grid.Column="0"
+                        BackgroundColor="White"
+                        StrokeThickness="2"
+                        Stroke="LightGray"
+                        Padding="20"
+                        StrokeShape="RoundRectangle 12">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnVisaTapped" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="💳"
+                               FontSize="40"
+                               HorizontalOptions="Center" />
+                        <Label Text="Visa"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Mastercard -->
+                <Border x:Name="MastercardBorder"
+                        Grid.Column="1"
+                        BackgroundColor="White"
+                        StrokeThickness="2"
+                        Stroke="LightGray"
+                        Padding="20"
+                        StrokeShape="RoundRectangle 12">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMastercardTapped" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="💳"
+                               FontSize="40"
+                               HorizontalOptions="Center" />
+                        <Label Text="Mastercard"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- Info Box -->
+            <Border BackgroundColor="#E3F2FD"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="ℹ️ ملاحظة:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#1976D2" />
+                    <Label Text="• يمكن إصدار بطاقتين كحد أقصى لكل حساب"
+                           FontSize="12"
+                           TextColor="#1976D2" />
+                    <Label Text="• بطاقة Visa وبطاقة Mastercard"
+                           FontSize="12"
+                           TextColor="#1976D2" />
+                    <Label Text="• رمز PIN الافتراضي: 1234"
+                           FontSize="12"
+                           TextColor="#1976D2" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Issue Button -->
+            <Button x:Name="IssueButton"
+                    Text="إصدار البطاقة 💳"
+                    BackgroundColor="#87CEEB"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    Clicked="OnIssueCardClicked"
+                    Margin="0,20,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

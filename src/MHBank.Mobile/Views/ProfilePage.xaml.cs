@@ -129,8 +129,37 @@ public partial class ProfilePage : ContentPage
 
     private async void OnChangePasswordTapped(object sender, EventArgs e)
     {
-        await DisplayAlert("قريباً", "ميزة تغيير كلمة المرور ستكون متاحة قريباً", "حسناً");
-        // TODO: Navigate to change password page
+        await Shell.Current.GoToAsync(nameof(ChangePasswordPage));
+    }
+
+    private async void OnSettingsTapped(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(SettingsPage));
+    }
+
+    private async void OnProfilePictureTapped(object sender, EventArgs e)
+    {
+        try
+        {
+            var result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+            {
+                Title = "اختر صورة شخصية"
+            });
+
+            if (result != null)
+            {
+                var stream = await result.OpenReadAsync();
+                ProfileImage.Source = ImageSource.FromStream(() => stream);
+                ProfileImage.IsVisible = true;
+                ProfilePlaceholder.IsVisible = false; // إخفاء الأيقونة
+
+                await DisplayAlert("نجح", "تم تحديث الصورة الشخصية", "حسناً");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("خطأ", $"فشل رفع الصورة: {ex.Message}", "حسناً");
+        }
     }
 
     private async void OnLogoutClicked(object sender, EventArgs e)

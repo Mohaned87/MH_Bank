@@ -153,7 +153,6 @@ public class TransactionsController : ControllerBase
             {
                 Success = true,
                 Message = "تم التحويل بنجاح",
-                TransactionId = trans.Id,  // ← أضف هذا
                 ReferenceNumber = referenceNumber,
                 Transaction = new
                 {
@@ -500,10 +499,74 @@ public class TransactionsController : ControllerBase
     }
 
     /// <summary>
-    /// الحصول على جميع معاملات المستخدم (لكل حساباته)
+    /// دفع فاتورة
+    /// </summary>
+    [HttpPost("bill-payment")]
+    public async Task<IActionResult> PayBill([FromBody] BillPaymentRequest request)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            var account = await _context.BankAccounts
+                .FirstOrDefaultAsync(a => a.Id == request.AccountId && a.UserId == userId.Value);
+
+            if (account == null)
+                return NotFound(new { Success = false, Message = "الحساب غير موجود" });
+
+            if (!account.IsActive)
+                return BadRequest(new { Success = false, Message = "الحساب غير نشط" });
+
+            if (account.Balance < request.Amount)
+                return BadRequest(new { Success = false, Message = "الرصيد غير كافٍ" });
+
+            if (request.Amount <= 0)
+                return BadRequest(new { Success = false, Message = "المبلغ غير صحيح" });
+
+            account.Balance -= request.Amount;
+
+            var trans = new Core.Entities.Transaction
+            {
+                Id = Guid.NewGuid(),
+                ReferenceNumber = GenerateReferenceNumber(),
+                Type = TransactionType.Withdrawal, // استخدام Withdrawal بدلاً من BillPayment
+                Status = TransactionStatus.Completed,
+                AccountId = account.Id,
+                Amount = request.Amount,
+                Currency = account.Currency,
+                Description = $"دفع فاتورة {request.BillType} - رقم المشترك: {request.SubscriberNumber}",
+                CreatedAt = DateTime.UtcNow,
+                CompletedAt = DateTime.UtcNow
+            };
+
+            _context.Transactions.Add(trans);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("✅ دفع فاتورة: {Amount} من حساب {Account}",
+                request.Amount, account.AccountNumber);
+
+            return Ok(new
+            {
+                Success = true,
+                Message = "تم دفع الفاتورة بنجاح",
+                TransactionId = trans.Id,
+                ReferenceNumber = trans.ReferenceNumber,
+                NewBalance = account.Balance
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ خطأ في دفع الفاتورة");
+            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
+        }
+    }
+
+    /// <summary>
+    /// الحصول على جميع معاملات المستخدم
     /// </summary>
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> GetAllUserTransactions()
     {
         try
@@ -514,13 +577,11 @@ public class TransactionsController : ControllerBase
 
             _logger.LogInformation("Getting all transactions for user: {UserId}", userId);
 
-            // جلب جميع حسابات المستخدم
             var userAccountIds = await _context.BankAccounts
                 .Where(a => a.UserId == userId.Value)
                 .Select(a => a.Id)
                 .ToListAsync();
 
-            // جلب المعاملات
             var transactions = await _context.Transactions
                 .Include(t => t.Account)
                 .Where(t => userAccountIds.Contains(t.AccountId))
@@ -551,16 +612,15 @@ public class TransactionsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting user transactions");
+            _logger.LogError(ex, "Error getting transactions");
             return StatusCode(500, new { Success = false, Message = "خطأ" });
         }
     }
 
     /// <summary>
-    /// الحصول على آخر المعاملات (لكل حسابات المستخدم)
+    /// الحصول على آخر المعاملات
     /// </summary>
     [HttpGet("recent")]
-    [Authorize]
     public async Task<IActionResult> GetRecentTransactions()
     {
         try
@@ -569,13 +629,11 @@ public class TransactionsController : ControllerBase
             if (userId == null)
                 return Unauthorized();
 
-            // جلب جميع حسابات المستخدم
             var userAccountIds = await _context.BankAccounts
                 .Where(a => a.UserId == userId.Value)
                 .Select(a => a.Id)
                 .ToListAsync();
 
-            // جلب آخر 5 معاملات
             var transactions = await _context.Transactions
                 .Include(t => t.Account)
                 .Where(t => userAccountIds.Contains(t.AccountId))
@@ -632,4 +690,12 @@ public record UpdateLimitsRequest
 {
     public decimal? DailyLimit { get; init; }
     public decimal? MonthlyLimit { get; init; }
+}
+
+public record BillPaymentRequest
+{
+    public Guid AccountId { get; init; }
+    public string BillType { get; init; } = string.Empty;
+    public string SubscriberNumber { get; init; } = string.Empty;
+    public decimal Amount { get; init; }
 }

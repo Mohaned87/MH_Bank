@@ -9,6 +9,9 @@ using MHBank.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// السماح بالاتصال من الـ Emulator والأجهزة الخارجية
+builder.WebHost.UseUrls("http://0.0.0.0:5185");
+
 // Add CORS
 builder.Services.AddCors(options =>
 {

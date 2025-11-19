@@ -54,11 +54,41 @@ build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.Accoun
 build_metadata.AdditionalFiles.TargetPath = Views\AccountDetailsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\AccountDetailsPage.xaml
 
+[D:/MH_Bank/src/MHBank.Mobile/Views/BillPaymentPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.BillPaymentPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\BillPaymentPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\BillPaymentPage.xaml
+
+[D:/MH_Bank/src/MHBank.Mobile/Views/CardsPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.CardsPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\CardsPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\CardsPage.xaml
+
+[D:/MH_Bank/src/MHBank.Mobile/Views/ChangePasswordPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.ChangePasswordPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ChangePasswordPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ChangePasswordPage.xaml
+
 [D:/MH_Bank/src/MHBank.Mobile/Views/HomePage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.HomePage.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\HomePage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\HomePage.xaml
+
+[D:/MH_Bank/src/MHBank.Mobile/Views/IssueCardPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.IssueCardPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\IssueCardPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\IssueCardPage.xaml
+
+[D:/MH_Bank/src/MHBank.Mobile/Views/KYCPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.KYCPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\KYCPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\KYCPage.xaml
 
 [D:/MH_Bank/src/MHBank.Mobile/Views/LoginPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
@@ -77,6 +107,12 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.RegisterPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\RegisterPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\RegisterPage.xaml
+
+[D:/MH_Bank/src/MHBank.Mobile/Views/SettingsPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MHBank.Mobile.Views.SettingsPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\SettingsPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\SettingsPage.xaml
 
 [D:/MH_Bank/src/MHBank.Mobile/Views/TransactionsHistoryPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml

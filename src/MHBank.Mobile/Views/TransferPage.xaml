@@ -35,21 +35,32 @@
                     StrokeThickness="0"
                     Padding="20"
                     StrokeShape="RoundRectangle 12">
-                <VerticalStackLayout x:Name="FromAccountLayout" Spacing="8">
-                    <Label x:Name="FromAccountTypeLabel"
-                           Text="حساب جاري"
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSelectFromAccountTapped" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="10">
+                    <VerticalStackLayout x:Name="FromAccountLayout" Spacing="8" HorizontalOptions="FillAndExpand">
+                        <Label x:Name="FromAccountTypeLabel"
+                               Text="اضغط لاختيار الحساب"
+                               FontSize="16"
+                               TextColor="{StaticResource Gray}" />
+                        <Label x:Name="FromAccountNumberLabel"
+                               Text=""
+                               FontSize="13"
+                               TextColor="{StaticResource Gray}"
+                               IsVisible="False" />
+                        <Label x:Name="FromAccountBalanceLabel"
+                               Text=""
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               IsVisible="False" />
+                    </VerticalStackLayout>
+                    <Label Text="▼"
                            FontSize="16"
-                           TextColor="{StaticResource Black}" />
-                    <Label x:Name="FromAccountNumberLabel"
-                           Text="1234567890"
-                           FontSize="13"
-                           TextColor="{StaticResource Gray}" />
-                    <Label x:Name="FromAccountBalanceLabel"
-                           Text="500,000 IQD"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Primary}" />
-                </VerticalStackLayout>
+                           TextColor="{StaticResource Gray}"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
             </Border>
 
             <!-- To Account Number -->

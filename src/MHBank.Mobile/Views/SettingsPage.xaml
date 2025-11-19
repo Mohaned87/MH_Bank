@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MHBank.Mobile.Views.SettingsPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Label Text="←"
+                       FontSize="24"
+                       TextColor="Black">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="الإعدادات ⚙️"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- API Settings -->
+            <Border BackgroundColor="White"
+                    StrokeThickness="0"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="15">
+
+                    <Label Text="إعدادات الاتصال بالخادم"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+
+                    <Label Text="عنوان الخادم (API URL):"
+                           FontSize="14"
+                           TextColor="Gray" />
+
+                    <Entry x:Name="ApiUrlEntry"
+                           Placeholder="http://192.168.1.100:5185"
+                           FontSize="14"
+                           BackgroundColor="#F5F5F5"
+                           TextColor="Black" />
+
+                    <Label Text="💡 للإيميوليتور: http://10.0.2.2:5185"
+                           FontSize="12"
+                           TextColor="Gray" />
+
+                    <Label Text="💡 للجهاز الحقيقي: http://YOUR_PC_IP:5185"
+                           FontSize="12"
+                           TextColor="Gray" />
+
+                    <Button x:Name="SaveButton"
+                            Text="حفظ العنوان ✅"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            Clicked="OnSaveClicked" />
+
+                    <Button Text="اختبار الاتصال 🔌"
+                            BackgroundColor="#2196F3"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            Clicked="OnTestConnectionClicked" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Current Settings -->
+            <Border BackgroundColor="#E3F2FD"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="ℹ️ العنوان الحالي:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#1976D2" />
+                    <Label x:Name="CurrentUrlLabel"
+                           Text="http://10.0.2.2:5185"
+                           FontSize="12"
+                           TextColor="#1976D2" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
