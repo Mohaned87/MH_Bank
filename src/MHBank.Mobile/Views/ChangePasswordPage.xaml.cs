@@ -190,7 +190,7 @@ public partial class ChangePasswordPage : ContentPage
     private async Task<string> GetBaseUrlAsync()
     {
         // قراءة BaseUrl من Preferences أو استخدام الافتراضي
-        var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+        var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
         return baseUrl;
     }
 

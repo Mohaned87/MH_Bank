@@ -21,6 +21,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<BillPayment> BillPayments => Set<BillPayment>();
+    public DbSet<KYCRequest> KYCRequests => Set<KYCRequest>();
+    public DbSet<KYCDocument> KYCDocuments => Set<KYCDocument>();
 
 
 
@@ -161,6 +163,49 @@ public class ApplicationDbContext : DbContext
                 .WithMany(e => e.BillPayments)
                 .HasForeignKey(e => e.AccountId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+        // ═══════════════════════════════════════════
+        // KYCRequest Configuration
+        // ═══════════════════════════════════════════
+        modelBuilder.Entity<KYCRequest>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.AccountId);
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.Status);
+            entity.HasIndex(e => e.CreatedAt);
+
+            // العلاقة: KYCRequest ينتمي لـ Account واحد
+            entity.HasOne(e => e.Account)
+                .WithMany()
+                .HasForeignKey(e => e.AccountId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // العلاقة: KYCRequest ينتمي لـ User واحد
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // العلاقة: KYCRequest لديه عدة Documents
+            entity.HasMany(e => e.Documents)
+                .WithOne(e => e.KYCRequest)
+                .HasForeignKey(e => e.KYCRequestId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // ═══════════════════════════════════════════
+        // KYCDocument Configuration
+        // ═══════════════════════════════════════════
+        modelBuilder.Entity<KYCDocument>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.KYCRequestId);
+            entity.HasIndex(e => e.Type);
+
+            entity.Property(e => e.Base64Data).IsRequired();
+            entity.Property(e => e.FileName).HasMaxLength(255);
+            entity.Property(e => e.MimeType).HasMaxLength(100);
         });
     }
 }

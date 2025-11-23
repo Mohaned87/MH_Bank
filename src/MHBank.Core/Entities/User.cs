@@ -17,6 +17,15 @@ public class User
     public string LastName { get; set; } = string.Empty;
     public DateTime DateOfBirth { get; set; }
 
+    // العنوان
+    public string? Address { get; set; }
+    public string? City { get; set; }
+    public string? Country { get; set; } = "Iraq";
+    public string? PostalCode { get; set; }
+
+    // الصلاحيات
+    public string Role { get; set; } = "User"; // User, Admin
+
     // الحالة
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

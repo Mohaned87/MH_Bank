@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,15 +17,22 @@ public class JwtService : IJwtService
     private readonly string _secret;
     private readonly string _issuer;
     private readonly string _audience;
-    private readonly int _expirationMinutes;
+    private readonly int _accessTokenExpirationMinutes;
+    private readonly int _refreshTokenExpirationDays;
 
     public JwtService(IConfiguration configuration)
     {
-        _secret = configuration["Jwt:Secret"] ?? "MHBank-Super-Secret-Key-Min-32-Chars!";
+        _secret = configuration["Jwt:Secret"]
+            ?? throw new ArgumentNullException("Jwt:Secret is not configured");
         _issuer = configuration["Jwt:Issuer"] ?? "MHBank.API";
         _audience = configuration["Jwt:Audience"] ?? "MHBank.Mobile";
-        _expirationMinutes = int.Parse(configuration["Jwt:ExpirationMinutes"] ?? "60");
+        _accessTokenExpirationMinutes = int.Parse(configuration["Jwt:AccessTokenExpirationMinutes"] ?? "15");
+        _refreshTokenExpirationDays = int.Parse(configuration["Jwt:RefreshTokenExpirationDays"] ?? "7");
     }
+
+    // ═══════════════════════════════════════════════
+    // إنشاء Access Token
+    // ═══════════════════════════════════════════════
 
     public string GenerateAccessToken(User user)
     {
@@ -33,8 +41,10 @@ public class JwtService : IJwtService
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, user.FullName),
-            new Claim("PhoneNumber", user.PhoneNumber),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(ClaimTypes.Role, user.Role), // إضافة Role
+            new Claim("FirstName", user.FirstName),
+            new Claim("LastName", user.LastName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret));
@@ -44,21 +54,29 @@ public class JwtService : IJwtService
             issuer: _issuer,
             audience: _audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_expirationMinutes),
+            expires: DateTime.UtcNow.AddMinutes(_accessTokenExpirationMinutes),
             signingCredentials: credentials
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    // ═══════════════════════════════════════════════
+    // إنشاء Refresh Token
+    // ═══════════════════════════════════════════════
+
     public string GenerateRefreshToken()
     {
         var randomBytes = new byte[64];
-        using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+        using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomBytes);
 
         return Convert.ToBase64String(randomBytes);
     }
+
+    // ═══════════════════════════════════════════════
+    // التحقق من صحة الرمز
+    // ═══════════════════════════════════════════════
 
     public bool ValidateToken(string token)
     {
@@ -87,6 +105,10 @@ public class JwtService : IJwtService
         }
     }
 
+    // ═══════════════════════════════════════════════
+    // استخراج البيانات من الرمز
+    // ═══════════════════════════════════════════════
+
     public string? GetUserIdFromToken(string token)
     {
         try
@@ -94,7 +116,38 @@ public class JwtService : IJwtService
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = tokenHandler.ReadJwtToken(token);
 
-            return jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            return userIdClaim?.Value;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public Dictionary<string, string>? GetClaimsFromToken(string token)
+    {
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            return jwtToken.Claims.ToDictionary(c => c.Type, c => c.Value);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public DateTime? GetTokenExpiration(string token)
+    {
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            return jwtToken.ValidTo;
         }
         catch
         {

@@ -34,7 +34,9 @@ public enum NotificationType
     Login = 2,            // تسجيل دخول
     Security = 3,         // أمان
     KYC = 4,              // التحقق من الهوية
-    Card = 5,             // بطاقة
-    Account = 6,          // حساب
-    General = 7           // عام
+    KYC_Approved = 5,     // موافقة KYC
+    KYC_Rejected = 6,     // رفض KYC
+    Card = 7,             // بطاقة
+    Account = 8,          // حساب
+    General = 9           // عام
 }

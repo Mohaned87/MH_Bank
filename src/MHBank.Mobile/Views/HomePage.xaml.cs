@@ -13,7 +13,7 @@ public partial class HomePage : ContentPage
     private List<BankAccount> _allAccounts = new();
 
     // Default API URL
-    private const string DEFAULT_API_URL = "http://192.168.1.105:5185";
+    private const string DEFAULT_API_URL = "http://192.168.1.104:5185";
 
     public HomePage(IApiService apiService, IAuthService authService, INotificationService notificationService)
     {
@@ -657,7 +657,7 @@ public partial class HomePage : ContentPage
             ContentLayout.IsVisible = true;
 
             // استخدام URL من المتغير المحلي
-            var currentUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+            var currentUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
 
             await DisplayAlert("خطأ في الاتصال",
                 $"فشل الاتصال بالخادم\n\n" +

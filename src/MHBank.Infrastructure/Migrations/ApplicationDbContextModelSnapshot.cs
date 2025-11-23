@@ -61,6 +61,12 @@ namespace MHBank.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("KYCApprovedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KYCStatus")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("LastTransactionAt")
                         .HasColumnType("datetime2");
 
@@ -244,6 +250,103 @@ namespace MHBank.Infrastructure.Migrations
                     b.ToTable("Cards");
                 });
 
+            modelBuilder.Entity("MHBank.Core.Entities.KYCDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Base64Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("KYCRequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MimeType")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("VerificationNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KYCRequestId");
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("KYCDocuments");
+                });
+
+            modelBuilder.Entity("MHBank.Core.Entities.KYCRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CopiedFromRequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAutoVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReviewNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewedByAdminId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("KYCRequests");
+                });
+
             modelBuilder.Entity("MHBank.Core.Entities.Notification", b =>
                 {
                     b.Property<Guid>("Id")
@@ -396,6 +499,15 @@ namespace MHBank.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -453,6 +565,13 @@ namespace MHBank.Infrastructure.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SelfiePath")
                         .HasColumnType("nvarchar(max)");
 
@@ -506,6 +625,36 @@ namespace MHBank.Infrastructure.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("MHBank.Core.Entities.KYCDocument", b =>
+                {
+                    b.HasOne("MHBank.Core.Entities.KYCRequest", "KYCRequest")
+                        .WithMany("Documents")
+                        .HasForeignKey("KYCRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("KYCRequest");
+                });
+
+            modelBuilder.Entity("MHBank.Core.Entities.KYCRequest", b =>
+                {
+                    b.HasOne("MHBank.Core.Entities.BankAccount", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MHBank.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MHBank.Core.Entities.Notification", b =>
                 {
                     b.HasOne("MHBank.Core.Entities.User", "User")
@@ -546,6 +695,11 @@ namespace MHBank.Infrastructure.Migrations
                     b.Navigation("Cards");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("MHBank.Core.Entities.KYCRequest", b =>
+                {
+                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("MHBank.Core.Entities.User", b =>

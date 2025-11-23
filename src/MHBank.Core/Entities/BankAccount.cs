@@ -27,6 +27,10 @@ public class BankAccount
     public DateTime OpenedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastTransactionAt { get; set; }
 
+    // حالة التوثيق KYC
+    public KYCStatus KYCStatus { get; set; } = KYCStatus.NotStarted;
+    public DateTime? KYCApprovedAt { get; set; }
+
     // صاحب الحساب
     public Guid UserId { get; set; }
     public virtual User User { get; set; } = null!;

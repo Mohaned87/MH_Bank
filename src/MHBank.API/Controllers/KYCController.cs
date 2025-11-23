@@ -1,8 +1,9 @@
-﻿using MHBank.Core.Entities;
-using MHBank.Infrastructure.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MHBank.Core.Entities;
+using MHBank.Infrastructure.Data;
+using System.Security.Claims;
 
 namespace MHBank.API.Controllers;
 
@@ -20,220 +21,210 @@ public class KYCController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost("submit")]
-    public async Task<IActionResult> SubmitKYC()
+    private string? GetCurrentUserId()
     {
-        try
-        {
-            var userId = GetCurrentUserId();
-            if (userId == null)
-                return Unauthorized();
+        var claim = User.FindFirst(ClaimTypes.NameIdentifier)
+                 ?? User.FindFirst("sub")
+                 ?? User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
 
-            _logger.LogInformation("✅ تم رفع مستندات KYC للمستخدم: {UserId}", userId);
-
-            return Ok(new
-            {
-                Success = true,
-                Message = "تم رفع المستندات بنجاح. سيتم المراجعة خلال 24-48 ساعة.",
-                Status = "Pending"
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "❌ خطأ في رفع مستندات KYC");
-            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
-        }
+        return claim?.Value;
     }
-
-    [HttpGet("status")]
-    public async Task<IActionResult> GetKYCStatus()
-    {
-        try
-        {
-            var userId = GetCurrentUserId();
-            if (userId == null)
-                return Unauthorized();
-
-            // محاكاة: تحقق إذا تمت الموافقة من Admin
-            // في الواقع يجب حفظ الحالة في قاعدة البيانات
-            return Ok(new
-            {
-                Success = true,
-                Status = "Verified", // أو "Pending" أو "Rejected"
-                Message = "تم قبول طلب التوثيق ✅",
-                ApprovedAt = DateTime.UtcNow
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "❌ خطأ في جلب حالة KYC");
-            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
-        }
-    }
-
     /// <summary>
-    /// الحصول على إشعارات KYC للمستخدم
+    /// Test endpoint - للتأكد من اتصال Mobile
     /// </summary>
-    [HttpGet("notifications")]
-    public async Task<IActionResult> GetKYCNotifications()
+    [HttpPost("test")]
+    public IActionResult TestConnection([FromBody] TestRequest request)
+    {
+        var userId = GetCurrentUserId();
+        _logger.LogInformation("🧪 Test endpoint called by user: {UserId}", userId);
+        _logger.LogInformation("📥 Received data: {Data}", request.TestData);
+
+        return Ok(new
+        {
+            Success = true,
+            Message = "Mobile connected successfully!",
+            UserId = userId,
+            ReceivedData = request.TestData,
+            Timestamp = DateTime.UtcNow
+        });
+    }
+    [HttpGet("{accountId}/status")]
+    public async Task<IActionResult> GetKYCStatus(Guid accountId)
     {
         try
         {
             var userId = GetCurrentUserId();
-            if (userId == null)
+            if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
 
-            // جلب الإشعارات الحقيقية من قاعدة البيانات
-            var notifications = await _context.Notifications
-                .Where(n => n.UserId == userId.Value && n.Type == NotificationType.KYC)
-                .OrderByDescending(n => n.CreatedAt)
-                .Take(10)
-                .Select(n => new
+            var account = await _context.BankAccounts
+                .FirstOrDefaultAsync(a => a.Id == accountId && a.UserId == Guid.Parse(userId));
+
+            if (account == null)
+                return NotFound();
+
+            var kycRequest = await _context.KYCRequests
+                .Include(k => k.Documents)
+                .Where(k => k.AccountId == accountId)
+                .OrderByDescending(k => k.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            return Ok(new
+            {
+                Success = true,
+                KYCStatus = account.KYCStatus,
+                Request = kycRequest
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting KYC status");
+            return StatusCode(500);
+        }
+    }
+
+    [HttpPost("{accountId}/upload")]
+    public async Task<IActionResult> UploadDocument(Guid accountId, [FromBody] UploadDocumentRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("📤 Upload attempt for account: {AccountId}", accountId);
+
+            var userId = GetCurrentUserId();
+            _logger.LogInformation("👤 UserId from token: {UserId}", userId ?? "NULL");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                _logger.LogWarning("❌ No userId found in token!");
+                return Unauthorized(new { Success = false, Message = "غير مصرح - لا يوجد معرف مستخدم" });
+            }
+
+            _logger.LogInformation("🔍 Looking for account {AccountId} for user {UserId}", accountId, userId);
+
+            var account = await _context.BankAccounts
+                .FirstOrDefaultAsync(a => a.Id == accountId && a.UserId == Guid.Parse(userId));
+
+            if (account == null)
+            {
+                _logger.LogWarning("❌ Account not found or doesn't belong to user");
+                return NotFound(new { Success = false, Message = "الحساب غير موجود" });
+            }
+
+            _logger.LogInformation("✅ Account found: {AccountNumber}", account.AccountNumber);
+
+            var kycRequest = await _context.KYCRequests
+                .FirstOrDefaultAsync(k => k.AccountId == accountId && k.Status == KYCStatus.NotStarted);
+
+            if (kycRequest == null)
+            {
+                _logger.LogInformation("📝 Creating new KYC request");
+                kycRequest = new KYCRequest
                 {
-                    n.Id,
-                    n.Title,
-                    n.Message,
-                    Type = n.Type.ToString(),
-                    n.CreatedAt,
-                    n.IsRead
-                })
-                .ToListAsync();
-
-            _logger.LogInformation("📬 إرسال {Count} إشعار KYC للمستخدم: {UserId}", notifications.Count, userId);
-
-            return Ok(new
+                    Id = Guid.NewGuid(),
+                    UserId = Guid.Parse(userId),
+                    AccountId = accountId,
+                    Status = KYCStatus.NotStarted,
+                    CreatedAt = DateTime.UtcNow
+                };
+                _context.KYCRequests.Add(kycRequest);
+            }
+            else
             {
-                Success = true,
-                Notifications = notifications
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "❌ خطأ في جلب إشعارات KYC");
-            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
-        }
-    }
+                _logger.LogInformation("📋 Using existing KYC request: {RequestId}", kycRequest.Id);
+            }
 
-    private Guid? GetCurrentUserId()
-    {
-        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-        return string.IsNullOrEmpty(userIdClaim) ? null : Guid.Parse(userIdClaim);
-    }
+            _logger.LogInformation("📄 Creating document: Type={Type}", request.Type);
 
-    /// <summary>
-    /// موافقة الأدمن على طلب KYC (للإختبار - استخدم من Swagger)
-    /// </summary>
-    [HttpPost("admin/approve/{userId}")]
-    [AllowAnonymous] // للإختبار فقط - في الواقع يحتاج [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> AdminApproveKYC(Guid userId)
-    {
-        try
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-                return NotFound(new { Success = false, Message = "المستخدم غير موجود" });
-
-            // إنشاء إشعار للمستخدم
-            var notification = new Notification
+            var document = new KYCDocument
             {
                 Id = Guid.NewGuid(),
-                UserId = userId,
-                Title = "توثيق الهوية ✅",
-                Message = "تمت الموافقة على طلب توثيق الهوية (KYC). يمكنك الآن استخدام جميع خدمات البنك.",
-                Type = NotificationType.KYC,
-                IsRead = false,
-                CreatedAt = DateTime.UtcNow
+                KYCRequestId = kycRequest.Id,
+                Type = request.Type,
+                FileName = request.FileName ?? $"{request.Type}.jpg",
+                MimeType = request.MimeType ?? "image/jpeg",
+                FileSize = request.Base64Data.Length,
+                Base64Data = request.Base64Data,
+                UploadedAt = DateTime.UtcNow
             };
 
-            _context.Notifications.Add(notification);
+            _context.KYCDocuments.Add(document);
+
+            var changes = await _context.SaveChangesAsync();
+            _logger.LogInformation("✅ Saved {Changes} changes. Document ID: {DocId}", changes, document.Id);
+
+            return Ok(new
+            {
+                Success = true,
+                Document = new
+                {
+                    document.Id,
+                    document.Type,
+                    document.FileName,
+                    document.MimeType,
+                    document.FileSize,
+                    document.UploadedAt,
+                    KYCRequestId = document.KYCRequestId
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ Error uploading document for account {AccountId}", accountId);
+            return StatusCode(500, new { Success = false, Message = ex.Message });
+        }
+    }
+
+    [HttpPost("{accountId}/submit")]
+    public async Task<IActionResult> SubmitKYCRequest(Guid accountId)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var kycRequest = await _context.KYCRequests
+                .Include(k => k.Documents)
+                .Include(k => k.Account)
+                .FirstOrDefaultAsync(k => k.AccountId == accountId && k.UserId == Guid.Parse(userId));
+
+            if (kycRequest == null)
+                return NotFound();
+
+            kycRequest.Status = KYCStatus.Pending;
+            kycRequest.SubmittedAt = DateTime.UtcNow;
+            kycRequest.Account.KYCStatus = KYCStatus.Pending;
+
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("✅ تمت الموافقة على KYC للمستخدم: {UserId} - {Email}", userId, user.Email);
-
             return Ok(new
             {
                 Success = true,
-                Message = $"✅ تمت الموافقة على KYC للمستخدم {user.Email}",
-                UserId = userId,
-                Email = user.Email,
-                NotificationSent = true
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "❌ خطأ في الموافقة على KYC");
-            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
-        }
-    }
-
-    /// <summary>
-    /// رفض طلب KYC
-    /// </summary>
-    [HttpPost("admin/reject/{userId}")]
-    [AllowAnonymous]
-    public async Task<IActionResult> AdminRejectKYC(Guid userId, [FromBody] RejectKYCRequest request)
-    {
-        try
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-                return NotFound(new { Success = false, Message = "المستخدم غير موجود" });
-
-            _logger.LogInformation("❌ تم رفض KYC للمستخدم: {UserId}. السبب: {Reason}", userId, request.Reason);
-
-            return Ok(new
-            {
-                Success = true,
-                Message = $"تم رفض KYC للمستخدم {user.Email}",
-                Reason = request.Reason
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "❌ خطأ في رفض KYC");
-            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
-        }
-    }
-
-    /// <summary>
-    /// الحصول على جميع طلبات KYC (للأدمن)
-    /// </summary>
-    [HttpGet("admin/pending")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetPendingKYCRequests()
-    {
-        try
-        {
-            // في الواقع يجب جلب الطلبات من جدول KYC
-            // لكن للبساطة نرجع جميع المستخدمين
-            var users = await _context.Users
-                .Select(u => new
+                Request = new
                 {
-                    u.Id,
-                    u.Email,
-                    u.FirstName,
-                    u.LastName,
-                    u.PhoneNumber,
-                    u.CreatedAt
-                })
-                .ToListAsync();
-
-            return Ok(new
-            {
-                Success = true,
-                Count = users.Count,
-                Requests = users
+                    kycRequest.Id,
+                    kycRequest.Status,
+                    kycRequest.SubmittedAt,
+                    DocumentsCount = kycRequest.Documents.Count
+                }
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ خطأ في جلب طلبات KYC");
-            return StatusCode(500, new { Success = false, Message = "حدث خطأ" });
+            _logger.LogError(ex, "Error submitting KYC");
+            return StatusCode(500);
         }
     }
 }
 
-public record RejectKYCRequest
+public record UploadDocumentRequest
 {
-    public string Reason { get; init; } = string.Empty;
+    public DocumentType Type { get; init; }
+    public string Base64Data { get; init; } = string.Empty;
+    public string? FileName { get; init; }
+    public string? MimeType { get; init; }
+}
+public record TestRequest
+{
+    public string TestData { get; init; } = string.Empty;
 }

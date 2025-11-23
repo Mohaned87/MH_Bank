@@ -33,13 +33,13 @@ public class ApiService : IApiService
     private string GetBaseUrl()
     {
         // قراءة من Preferences في كل مرة
-        //var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+        //var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
         //System.Diagnostics.Debug.WriteLine($"🔵 Using BaseUrl: {baseUrl}");
         //return baseUrl;
-        var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+        var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
         if (string.IsNullOrEmpty(baseUrl) || baseUrl == "غير محدد")
         {
-            baseUrl = "http://192.168.1.105:5185";
+            baseUrl = "http://192.168.1.104:5185";
             Preferences.Set("api_base_url", baseUrl);
         }
         return baseUrl;

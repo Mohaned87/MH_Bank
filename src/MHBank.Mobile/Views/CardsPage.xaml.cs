@@ -77,12 +77,12 @@ public partial class CardsPage : ContentPage
             System.Diagnostics.Debug.WriteLine("✅ Authorization header set");
 
             System.Diagnostics.Debug.WriteLine("🔵 Step 3: Getting base URL...");
-            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
 
             // إصلاح: إذا كان URL فارغ أو "غير محدد"
             if (string.IsNullOrEmpty(baseUrl) || baseUrl.Contains("غير محدد") || baseUrl == "null")
             {
-                baseUrl = "http://192.168.1.105:5185";
+                baseUrl = "http://192.168.1.104:5185";
                 Preferences.Set("api_base_url", baseUrl);
                 System.Diagnostics.Debug.WriteLine($"⚠️ Fixed empty baseUrl to: {baseUrl}");
             }
@@ -351,7 +351,7 @@ public partial class CardsPage : ContentPage
             httpClient.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
             var response = await httpClient.PostAsync($"{baseUrl}/api/Cards/{cardId}/toggle", null);
 
             if (response.IsSuccessStatusCode)
@@ -389,7 +389,7 @@ public partial class CardsPage : ContentPage
             httpClient.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
             var response = await httpClient.DeleteAsync($"{baseUrl}/api/Cards/{cardId}");
 
             if (response.IsSuccessStatusCode)

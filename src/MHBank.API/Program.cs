@@ -1,11 +1,14 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+﻿using MHBank.API.Hubs;
 using MHBank.API.Middleware;
+using MHBank.API.Services;
 using MHBank.Core.Interfaces;
 using MHBank.Infrastructure.Data;
 using MHBank.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,12 +36,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// JWT Service
+// Services
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<TransactionLimitsService>();
 builder.Services.AddScoped<OtpService>();
-builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<MHBank.Infrastructure.Services.NotificationService>();
 builder.Services.AddScoped<FraudDetectionService>();
+builder.Services.AddScoped<ISignalRNotificationService, SignalRNotificationService>();
+
+// SignalR
+builder.Services.AddSignalR();
 
 // JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"] ?? "MHBank-Super-Secret-Key-Min-32-Chars-For-JWT-2025!";
@@ -61,7 +68,25 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = jwtAudience,
         ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+        RoleClaimType = ClaimTypes.Role
+    };
+
+    // دعم JWT في SignalR
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -76,7 +101,6 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "MH-Bank API", Version = "v1" });
 
-    // إضافة JWT للـ Swagger
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -104,15 +128,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
-app.UseCors(policy =>
-    policy.AllowAnyOrigin()
-          .AllowAnyMethod()
-          .AllowAnyHeader());
+
 // ═══════════════════════════════════════════════
 // Middleware Pipeline
 // ═══════════════════════════════════════════════
 
-// تفعيل Swagger
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -130,13 +150,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// الصفحة الرئيسية
+// SignalR Hub
+app.MapHub<NotificationHub>("/hubs/notifications");
+
 app.MapGet("/", () => new
 {
     Message = "🏦 MH-Bank API is Running!",
     Version = "v1.0",
-    Swagger = "/swagger"
+    Swagger = "/swagger",
+    SignalR = "/hubs/notifications"
 });
-app.UseCors("AllowAll");
 
 app.Run();
+
+
+

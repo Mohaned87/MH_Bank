@@ -189,12 +189,12 @@ public partial class IssueCardPage : ContentPage
             Console.WriteLine($"✅ Request: AccountId={_selectedAccount.Id}, Brand={request.Brand}");
 
             System.Diagnostics.Debug.WriteLine("🔵 Step 4: Getting base URL...");
-            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.105:5185");
+            var baseUrl = Preferences.Get("api_base_url", "http://192.168.1.104:5185");
 
             // إصلاح: إذا كان URL فارغ أو "غير محدد"
             if (string.IsNullOrEmpty(baseUrl) || baseUrl.Contains("غير محدد") || baseUrl == "null")
             {
-                baseUrl = "http://192.168.1.105:5185";
+                baseUrl = "http://192.168.1.104:5185";
                 Preferences.Set("api_base_url", baseUrl);
                 System.Diagnostics.Debug.WriteLine($"⚠️ Fixed empty baseUrl");
             }
